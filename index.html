@@ -457,36 +457,77 @@
             gap: 20px;
         }
         .suc-card {
-            background: #1a1a1a;
+            position: relative;
             border-radius: 8px;
             overflow: hidden;
-            border-left: 4px solid var(--suc-color, #CC0000);
+            height: 240px;
+            border-bottom: 4px solid var(--suc-color, #CC0000);
             transition: all 0.3s ease;
         }
-        .suc-card-img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
+        .suc-card-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.4s ease;
+        }
+        .suc-card:hover .suc-card-bg { transform: scale(1.05); }
+        .suc-card-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.15) 100%);
         }
         .suc-card-body {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
             padding: 20px;
         }
         .suc-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
         .suc-card h3 {
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             text-transform: uppercase;
             margin-bottom: 4px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
         }
         .suc-card .suc-location {
-            color: #888;
+            color: #ccc;
             font-size: 0.85rem;
             margin-bottom: 14px;
             font-weight: 300;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
         .suc-card-buttons { display: flex; gap: 8px; }
+        .suc-card--soon {
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .suc-card--soon .suc-card-body {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .suc-badge-soon {
+            display: inline-block;
+            background: rgba(255,193,7,0.15);
+            color: #FFC107;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.8rem;
+            padding: 4px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
         .suc-btn {
             flex: 1;
             text-align: center;
@@ -850,191 +891,178 @@
         <div class="sucursales-grid" id="sucursalesGrid">
             <!-- MÉRIDA -->
             <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#8E24AA">
-                <img src="images/sucursales/Caucel.png" alt="Sucursal Caucel" class="suc-card-img" loading="lazy">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/Caucel.png')"></div>
                 <div class="suc-card-body">
                     <h3>Caucel</h3>
                     <p class="suc-location">Mérida, Yucatán</p>
                     <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="https://maps.app.goo.gl/1h61SXRNt9XtehLYA" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
                         <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
                     </div>
                 </div>
             </div>
             <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#1E88E5">
-                <img src="images/sucursales/centro 71.png" alt="Sucursal Centro 71" class="suc-card-img" loading="lazy">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/centro 71.png')"></div>
                 <div class="suc-card-body">
                     <h3>Centro 71</h3>
                     <p class="suc-location">Mérida, Yucatán</p>
                     <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
-                        <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#00ACC1">
-                <img src="images/sucursales/Fco montejo.png" alt="Sucursal Fco Montejo" class="suc-card-img" loading="lazy">
-                <div class="suc-card-body">
-                    <h3>Fco Montejo</h3>
-                    <p class="suc-location">Mérida, Yucatán</p>
-                    <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
-                        <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#43A047">
-                <img src="images/sucursales/Kanasin.jpeg" alt="Sucursal Kanasín" class="suc-card-img" loading="lazy">
-                <div class="suc-card-body">
-                    <h3>Kanasín</h3>
-                    <p class="suc-location">Mérida, Yucatán</p>
-                    <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="https://maps.app.goo.gl/tw1nCg6c6bCoijar6" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
                         <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
                     </div>
                 </div>
             </div>
             <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#F4511E">
-                <img src="images/sucursales/Paloma.jpeg" alt="Sucursal Paloma" class="suc-card-img" loading="lazy">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/Paloma.jpeg')"></div>
                 <div class="suc-card-body">
                     <h3>Paloma</h3>
                     <p class="suc-location">Mérida, Yucatán</p>
                     <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="https://maps.app.goo.gl/gB1TdRCHgg8qhSnd7" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
                         <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
                     </div>
                 </div>
             </div>
-            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#FB8C00">
-                <img src="images/sucursales/Meliton.png" alt="Sucursal Melitón" class="suc-card-img" loading="lazy">
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#00ACC1">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/Fco montejo.png')"></div>
                 <div class="suc-card-body">
-                    <h3>Melitón</h3>
+                    <h3>Fco Montejo</h3>
                     <p class="suc-location">Mérida, Yucatán</p>
                     <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
-                        <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#F9A825">
-                <img src="images/sucursales/mexico norte.jpeg" alt="Sucursal México Norte" class="suc-card-img" loading="lazy">
-                <div class="suc-card-body">
-                    <h3>México Norte</h3>
-                    <p class="suc-location">Mérida, Yucatán</p>
-                    <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
-                        <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#00897B">
-                <img src="images/sucursales/Miraflores.jpeg" alt="Sucursal Miraflores" class="suc-card-img" loading="lazy">
-                <div class="suc-card-body">
-                    <h3>Miraflores</h3>
-                    <p class="suc-location">Mérida, Yucatán</p>
-                    <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="https://maps.app.goo.gl/JcboDqu8DFU5pGss5" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
                         <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
                     </div>
                 </div>
             </div>
             <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#039BE5">
-                <img src="images/sucursales/Mulsay.jpeg" alt="Sucursal Mulsay" class="suc-card-img" loading="lazy">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/Mulsay.jpeg')"></div>
                 <div class="suc-card-body">
                     <h3>Mulsay</h3>
                     <p class="suc-location">Mérida, Yucatán</p>
                     <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="https://maps.app.goo.gl/cU4Q8kk9FdZLyc7DA" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
                         <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
                     </div>
                 </div>
             </div>
-            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#546E7A">
-                <img src="images/sucursales/Pensiones.jpg" alt="Sucursal Pensiones" class="suc-card-img" loading="lazy">
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#F9A825">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/mexico norte.jpeg')"></div>
                 <div class="suc-card-body">
-                    <h3>Pensiones</h3>
+                    <h3>México Norte</h3>
                     <p class="suc-location">Mérida, Yucatán</p>
                     <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="https://maps.app.goo.gl/rvd4kzVYjUCtLPQWA" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#00897B">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/Miraflores.jpeg')"></div>
+                <div class="suc-card-body">
+                    <h3>Miraflores</h3>
+                    <p class="suc-location">Mérida, Yucatán</p>
+                    <div class="suc-card-buttons">
+                        <a href="https://maps.app.goo.gl/tZDM8ENxVXbEGXAE9" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#FB8C00">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/Meliton.png')"></div>
+                <div class="suc-card-body">
+                    <h3>Melitón</h3>
+                    <p class="suc-location">Mérida, Yucatán</p>
+                    <div class="suc-card-buttons">
+                        <a href="https://maps.app.goo.gl/a8giJNkruK5Lks5S8" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#43A047">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/Kanasin.jpeg')"></div>
+                <div class="suc-card-body">
+                    <h3>Kanasín</h3>
+                    <p class="suc-location">Mérida, Yucatán</p>
+                    <div class="suc-card-buttons">
+                        <a href="https://maps.app.goo.gl/hWdtCZWuGjEdrYSn8" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
                         <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
                     </div>
                 </div>
             </div>
             <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#283593">
-                <img src="images/sucursales/brotherhood.jpeg" alt="Sucursal Brotherhood" class="suc-card-img" loading="lazy">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/brotherhood.jpeg')"></div>
                 <div class="suc-card-body">
                     <h3>Brotherhood</h3>
                     <p class="suc-location">Mérida, Yucatán</p>
                     <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="https://maps.app.goo.gl/M6kemJ2aP5v2sgveA" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
                         <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
                     </div>
                 </div>
             </div>
             <!-- CAMPECHE -->
-            <div class="suc-card fade-in" data-zone="campeche" style="--suc-color:#E53935">
-                <img src="images/sucursales/Obregon.jpeg" alt="Sucursal Obregón" class="suc-card-img" loading="lazy">
-                <div class="suc-card-body">
-                    <h3>Obregón</h3>
-                    <p class="suc-location">Campeche, Campeche</p>
-                    <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
-                        <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
-                    </div>
-                </div>
-            </div>
             <div class="suc-card fade-in" data-zone="campeche" style="--suc-color:#D81B60">
-                <img src="images/sucursales/Santa ana.jpeg" alt="Sucursal Santa Ana" class="suc-card-img" loading="lazy">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/Santa ana.jpeg')"></div>
                 <div class="suc-card-body">
                     <h3>Santa Ana</h3>
                     <p class="suc-location">Campeche, Campeche</p>
                     <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="https://maps.app.goo.gl/aT6VeqMKRCgAks1X6" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
                         <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
                     </div>
                 </div>
             </div>
-            <!-- OTROS -->
-            <div class="suc-card fade-in" data-zone="otros" style="--suc-color:#5E35B1">
-                <img src="images/sucursales/Motul.png" alt="Sucursal Motul" class="suc-card-img" loading="lazy">
+            <div class="suc-card fade-in" data-zone="campeche" style="--suc-color:#E53935">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/Obregon.jpeg')"></div>
                 <div class="suc-card-body">
-                    <h3>Motul</h3>
-                    <p class="suc-location">Motul, Yucatán</p>
+                    <h3>Obregón</h3>
+                    <p class="suc-location">Campeche, Campeche</p>
                     <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="https://maps.app.goo.gl/RX3uC5NZPqEy6sgE8" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <!-- YUCATÁN (otros) -->
+            <div class="suc-card fade-in" data-zone="otros" style="--suc-color:#00695C">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/Valladolid.png')"></div>
+                <div class="suc-card-body">
+                    <h3>Valladolid</h3>
+                    <p class="suc-location">Valladolid, Yucatán</p>
+                    <div class="suc-card-buttons">
+                        <a href="https://maps.app.goo.gl/Bcwc9WUcaEUTksEE8" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
                         <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
                     </div>
                 </div>
             </div>
             <div class="suc-card fade-in" data-zone="otros" style="--suc-color:#6D4C41">
-                <img src="images/sucursales/Progreso.jpg" alt="Sucursal Progreso" class="suc-card-img" loading="lazy">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/Progreso.jpg')"></div>
                 <div class="suc-card-body">
                     <h3>Progreso</h3>
                     <p class="suc-location">Progreso, Yucatán</p>
                     <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="https://maps.app.goo.gl/ekyEP6RLyZBv6F8P9" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
                         <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
                     </div>
                 </div>
             </div>
-            <div class="suc-card fade-in" data-zone="otros" style="--suc-color:#00695C">
-                <img src="images/sucursales/Valladolid.png" alt="Sucursal Valladolid 1" class="suc-card-img" loading="lazy">
+            <div class="suc-card fade-in" data-zone="otros" style="--suc-color:#5E35B1">
+                <div class="suc-card-bg" style="background-image:url('images/sucursales/Motul.png')"></div>
                 <div class="suc-card-body">
-                    <h3>Valladolid 1</h3>
-                    <p class="suc-location">Valladolid, Yucatán</p>
+                    <h3>Motul</h3>
+                    <p class="suc-location">Motul, Yucatán</p>
                     <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                        <a href="https://maps.app.goo.gl/3wWUVsse3uSG4Ctx5" target="_blank" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
                         <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
                     </div>
                 </div>
             </div>
-            <div class="suc-card fade-in" data-zone="otros" style="--suc-color:#AD1457">
+            <!-- PRÓXIMAMENTE -->
+            <div class="suc-card suc-card--soon fade-in" data-zone="otros" style="--suc-color:#AD1457">
                 <div class="suc-card-body">
+                    <span class="suc-badge-soon">Próximamente</span>
                     <h3>Valladolid 2</h3>
                     <p class="suc-location">Valladolid, Yucatán</p>
-                    <div class="suc-card-buttons">
-                        <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
-                        <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
-                    </div>
                 </div>
             </div>
         </div>
