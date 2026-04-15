@@ -1087,35 +1087,48 @@
 <!-- ══════════════════════════════════════
      PORTAL DE CLIENTES
      ══════════════════════════════════════ -->
-<div id="portal-overlay" style="position:fixed;inset:0;z-index:9000;background:#0a0a0a;display:none;overflow-y:auto;">
+<div id="portal-overlay" data-tema="oscuro" style="position:fixed;inset:0;z-index:9000;display:none;overflow-y:auto;">
     <div id="portal-content"></div>
 </div>
-<div id="portal-carrito-panel" style="position:fixed;right:0;top:0;height:100%;width:380px;max-width:100vw;background:#111;border-left:1px solid #333;z-index:9100;transform:translateX(100%);transition:transform .3s;overflow-y:auto;display:none;">
+<div id="portal-carrito-panel" style="position:fixed;right:0;top:0;height:100%;width:380px;max-width:100vw;z-index:9100;transform:translateX(100%);transition:transform .3s;overflow-y:auto;display:none;">
     <div id="portal-carrito-content"></div>
 </div>
 <div id="portal-cot-modal" style="display:none;position:fixed;inset:0;z-index:9200;background:#fff;color:#000;overflow-y:auto;"></div>
 
 <style>
+/* Portal theme variables */
+#portal-overlay[data-tema="oscuro"]{
+    --pt-bg:#0a0a0a;--pt-surface:#111111;--pt-border:#222222;--pt-text:#ffffff;--pt-muted:#888888;
+    --pt-navbar:#111111;--pt-input-bg:#1a1a1a;--pt-card-hover:#1a1a1a;--pt-chip-bg:#1a1a1a;--pt-price:#4ade80;
+}
+#portal-overlay[data-tema="claro"]{
+    --pt-bg:#f5f5f5;--pt-surface:#ffffff;--pt-border:#e0e0e0;--pt-text:#111111;--pt-muted:#666666;
+    --pt-navbar:#ffffff;--pt-input-bg:#f9f9f9;--pt-card-hover:#f0f0f0;--pt-chip-bg:#eeeeee;--pt-price:#16a34a;
+}
+#portal-overlay{background:var(--pt-bg);color:var(--pt-text);}
+#portal-carrito-panel{background:var(--pt-surface,#111);border-left:1px solid var(--pt-border,#333);}
 /* Portal styles */
 #portal-overlay input[type="text"],#portal-overlay input[type="password"],#portal-overlay input[type="number"],#portal-overlay input[type="tel"],#portal-overlay select{
-    width:100%;padding:12px 14px;border:1px solid #333;border-radius:6px;background:#1a1a1a;color:#fff;font-size:15px;font-family:'Roboto',sans-serif;outline:none;transition:border-color .3s;
+    width:100%;padding:12px 14px;border:1px solid var(--pt-border);border-radius:6px;background:var(--pt-input-bg);color:var(--pt-text);font-size:15px;font-family:'Roboto',sans-serif;outline:none;transition:border-color .3s;
 }
 #portal-overlay input:focus,#portal-overlay select:focus{border-color:#CC0000;}
 .p-btn{display:inline-block;padding:10px 20px;background:#CC0000;color:#fff;border:none;border-radius:6px;font-family:'Oswald',sans-serif;font-size:14px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:background .3s;}
 .p-btn:hover{background:#a00000;}
-.p-btn-outline{background:transparent;border:1px solid #555;color:#aaa;}
-.p-btn-outline:hover{border-color:#CC0000;color:#fff;}
-.p-card{background:#111;border:1px solid #222;border-radius:10px;padding:16px;margin-bottom:12px;animation:pfadeIn .3s ease;}
+.p-btn-outline{background:transparent;border:1px solid var(--pt-border,#555);color:var(--pt-muted,#aaa);}
+.p-btn-outline:hover{border-color:#CC0000;color:var(--pt-text,#fff);}
+.p-card{background:var(--pt-surface);border:1px solid var(--pt-border);border-radius:10px;padding:16px;margin-bottom:12px;animation:pfadeIn .3s ease;}
 @keyframes pfadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .p-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-family:'Roboto Mono',monospace;margin-right:6px;}
 .p-stock-chip{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;margin:3px 3px 3px 0;font-weight:500;}
 .p-stock-ok{background:rgba(74,222,128,0.12);color:#4ade80;}
 .p-stock-low{background:rgba(251,191,36,0.12);color:#fbbf24;}
-.p-stock-none{background:rgba(136,136,136,0.12);color:#888;}
+.p-stock-none{background:rgba(136,136,136,0.12);color:var(--pt-muted,#888);}
 .p-stock-pref{border:1px solid #4ade80;}
-.p-tab{padding:10px 20px;background:transparent;border:none;color:#888;font-family:'Oswald',sans-serif;font-size:14px;cursor:pointer;border-bottom:2px solid transparent;text-transform:uppercase;letter-spacing:1px;transition:all .3s;}
-.p-tab:hover{color:#fff;}
+.p-tab{padding:10px 20px;background:transparent;border:none;color:var(--pt-muted);font-family:'Oswald',sans-serif;font-size:14px;cursor:pointer;border-bottom:2px solid transparent;text-transform:uppercase;letter-spacing:1px;transition:all .3s;}
+.p-tab:hover{color:var(--pt-text);}
 .p-tab.active{color:#CC0000;border-bottom-color:#CC0000;}
+.p-theme-btn{background:none;border:1px solid var(--pt-border,#333);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:18px;transition:border-color .3s;}
+.p-theme-btn:hover{border-color:#CC0000;}
 @media(max-width:600px){
     #portal-carrito-panel{width:100vw;}
     .p-result-row{flex-direction:column!important;}
@@ -1145,6 +1158,30 @@ let portalResultados=[];
 let portalSucPref=localStorage.getItem('selem_suc_pref')||'';
 let portalTab='buscar';
 let carritoAbierto=false;
+let portalTema=localStorage.getItem('selem_portal_tema')||'oscuro';
+
+function aplicarTema(tema){
+    portalTema=tema;
+    localStorage.setItem('selem_portal_tema',tema);
+    document.getElementById('portal-overlay').setAttribute('data-tema',tema);
+    // Sync carrito panel colors via style
+    const panel=document.getElementById('portal-carrito-panel');
+    const ov=document.getElementById('portal-overlay');
+    const cs=getComputedStyle(ov);
+    panel.style.background=cs.getPropertyValue('--pt-surface');
+    panel.style.borderLeftColor=cs.getPropertyValue('--pt-border');
+    // Re-render carrito if open
+    if(carritoAbierto)renderCarrito();
+}
+
+function toggleTema(){
+    aplicarTema(portalTema==='oscuro'?'claro':'oscuro');
+    // Update button icon
+    const btn=document.getElementById('portal-tema-btn');
+    if(btn)btn.textContent=portalTema==='oscuro'?'☀️':'🌙';
+}
+
+function temaIcon(){return portalTema==='oscuro'?'☀️':'🌙';}
 
 // Carga anticipada
 window.addEventListener('load',()=>{
@@ -1161,6 +1198,7 @@ function abrirPortal(){
     const ov=document.getElementById('portal-overlay');
     ov.style.display='block';
     document.body.style.overflow='hidden';
+    aplicarTema(portalTema);
     if(sessionStorage.getItem('selem_portal_auth')){
         const u=JSON.parse(sessionStorage.getItem('selem_portal_auth'));
         portalUsuario=u;
@@ -1187,17 +1225,18 @@ function cerrarPortal(){
 
 function renderPortalLogin(){
     document.getElementById('portal-content').innerHTML=`
+    <div style="position:absolute;top:16px;right:20px;"><button class="p-theme-btn" id="portal-tema-btn" onclick="toggleTema()">${temaIcon()}</button></div>
     <div style="max-width:400px;margin:auto;padding:80px 20px;text-align:center;">
         <img src="images/selemlogo.png" alt="Selem" style="height:70px;margin:0 auto 24px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(0,0,0,.5));">
-        <h1 style="font-family:'Oswald',sans-serif;font-size:1.8rem;color:#fff;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Portal de Clientes</h1>
-        <p style="color:#888;margin-bottom:28px;">Consulta precios y disponibilidad en tiempo real</p>
+        <h1 style="font-family:'Oswald',sans-serif;font-size:1.8rem;color:var(--pt-text);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Portal de Clientes</h1>
+        <p style="color:var(--pt-muted);margin-bottom:28px;">Consulta precios y disponibilidad en tiempo real</p>
         <input type="text" id="portal-usr" placeholder="Usuario" style="margin-bottom:12px;" autocomplete="off">
         <input type="password" id="portal-pwd" placeholder="Contraseña" style="margin-bottom:12px;" autocomplete="off" onkeydown="if(event.key==='Enter')portalLogin()">
         <button id="portal-login-btn" class="p-btn" style="width:100%;padding:14px;" onclick="portalLogin()" ${portalInventarioCargado?'':'disabled'}>
             ${portalInventarioCargado?'Ingresar':'Cargando inventario...'}
         </button>
         <div id="portal-login-error" style="color:#CC0000;font-size:13px;margin-top:10px;min-height:20px;"></div>
-        <button onclick="cerrarPortal()" style="margin-top:20px;background:none;border:none;color:#666;cursor:pointer;font-size:13px;">← Regresar a la página</button>
+        <button onclick="cerrarPortal()" style="margin-top:20px;background:none;border:none;color:var(--pt-muted);cursor:pointer;font-size:13px;">← Regresar a la página</button>
     </div>`;
     setTimeout(()=>{const i=document.getElementById('portal-usr');if(i)i.focus();},100);
 }
@@ -1233,29 +1272,30 @@ function renderPortalMain(){
     const totalProds=portalInventario.length.toLocaleString();
     const sucOpts=Object.entries(SUC_NOMBRES).map(([k,v])=>`<option value="${k}" ${portalSucPref===k?'selected':''}>${v}</option>`).join('');
     document.getElementById('portal-content').innerHTML=`
-    <div style="position:sticky;top:0;z-index:100;background:#111;border-bottom:1px solid #333;padding:10px 20px;">
+    <div style="position:sticky;top:0;z-index:100;background:var(--pt-navbar);border-bottom:1px solid var(--pt-border);padding:10px 20px;">
         <div style="max-width:1200px;margin:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
             <img src="images/selemlogo.png" alt="Selem" style="height:35px;object-fit:contain;">
-            <span style="color:#666;font-size:13px;display:none;" id="portal-nav-label">Portal de Clientes</span>
+            <span style="color:var(--pt-muted);font-size:13px;display:none;" id="portal-nav-label">Portal de Clientes</span>
             <div style="flex:1;"></div>
-            <button onclick="toggleCarrito()" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer;position:relative;">
+            <button class="p-theme-btn" id="portal-tema-btn" onclick="toggleTema()">${temaIcon()}</button>
+            <button onclick="toggleCarrito()" style="background:none;border:none;color:var(--pt-text);font-size:20px;cursor:pointer;position:relative;">
                 🛒<span id="portal-cart-badge" style="position:absolute;top:-6px;right:-10px;background:#CC0000;color:#fff;font-size:10px;padding:1px 5px;border-radius:10px;display:${portalCarrito.length?'block':'none'};">${portalCarrito.length}</span>
             </button>
-            <span style="color:#aaa;font-size:13px;">${portalUsuario.nombre}</span>
-            <button onclick="portalLogout()" class="p-btn-outline" style="padding:6px 12px;font-size:11px;border-radius:4px;cursor:pointer;background:none;border:1px solid #555;color:#aaa;font-family:'Oswald',sans-serif;">Cerrar sesión</button>
-            <button onclick="cerrarPortal()" style="background:none;border:none;color:#888;font-size:22px;cursor:pointer;margin-left:4px;">✕</button>
+            <span style="color:var(--pt-muted);font-size:13px;">${portalUsuario.nombre}</span>
+            <button onclick="portalLogout()" class="p-btn-outline" style="padding:6px 12px;font-size:11px;border-radius:4px;cursor:pointer;background:none;font-family:'Oswald',sans-serif;">Cerrar sesión</button>
+            <button onclick="cerrarPortal()" style="background:none;border:none;color:var(--pt-muted);font-size:22px;cursor:pointer;margin-left:4px;">✕</button>
         </div>
     </div>
     <div style="max-width:1200px;margin:auto;padding:20px;">
-        <div style="display:flex;gap:0;border-bottom:1px solid #333;margin-bottom:24px;">
+        <div style="display:flex;gap:0;border-bottom:1px solid var(--pt-border);margin-bottom:24px;">
             <button class="p-tab active" onclick="switchTab('buscar',this)">🔍 Buscar</button>
             <button class="p-tab" onclick="switchTab('cotizaciones',this)">📋 Mis Cotizaciones</button>
             <button class="p-tab" onclick="switchTab('perfil',this)">👤 Mi Perfil</button>
         </div>
         <div id="portal-tab-content">
             <div>
-                <h2 style="font-family:'Oswald',sans-serif;font-size:28px;color:#fff;margin-bottom:4px;">¿Qué necesitas?</h2>
-                <p style="color:#888;margin-bottom:20px;">Busca entre más de ${totalProds} productos disponibles</p>
+                <h2 style="font-family:'Oswald',sans-serif;font-size:28px;color:var(--pt-text);margin-bottom:4px;">¿Qué necesitas?</h2>
+                <p style="color:var(--pt-muted);margin-bottom:20px;">Busca entre más de ${totalProds} productos disponibles</p>
                 <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
                     <input type="text" id="portal-search-input" placeholder="Busca por nombre, código o marca..." style="flex:1;min-width:200px;font-size:16px;padding:14px;" onkeydown="if(event.key==='Enter')portalBuscar()">
                     <select id="portal-suc-sel" style="min-width:180px;" onchange="portalSucPref=this.value;localStorage.setItem('selem_suc_pref',this.value);if(portalResultados.length)portalBuscar();">
@@ -1288,14 +1328,14 @@ function switchTab(tab,el){
 function renderCotizaciones(container){
     const cots=JSON.parse(localStorage.getItem('selem_cotizaciones')||'[]');
     if(!cots.length){
-        container.innerHTML='<div style="text-align:center;padding:60px 20px;color:#666;"><p style="font-size:18px;">📋</p><p>Aún no has generado cotizaciones</p></div>';
+        container.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--pt-muted);"><p style="font-size:18px;">📋</p><p>Aún no has generado cotizaciones</p></div>';
         return;
     }
-    let html='<h2 style="font-family:\'Oswald\',sans-serif;font-size:24px;color:#fff;margin-bottom:20px;">Mis Cotizaciones</h2>';
+    let html='<h2 style="font-family:\'Oswald\',sans-serif;font-size:24px;color:var(--pt-text);margin-bottom:20px;">Mis Cotizaciones</h2>';
     html+='<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;">';
-    html+='<tr style="border-bottom:1px solid #333;"><th style="text-align:left;padding:10px;color:#888;font-family:\'Oswald\',sans-serif;font-size:13px;">FOLIO</th><th style="text-align:left;padding:10px;color:#888;font-family:\'Oswald\',sans-serif;font-size:13px;">FECHA</th><th style="text-align:center;padding:10px;color:#888;font-family:\'Oswald\',sans-serif;font-size:13px;">PRODUCTOS</th><th style="text-align:right;padding:10px;color:#888;font-family:\'Oswald\',sans-serif;font-size:13px;">TOTAL</th><th style="padding:10px;"></th></tr>';
+    html+='<tr style="border-bottom:1px solid var(--pt-border);"><th style="text-align:left;padding:10px;color:var(--pt-muted);font-family:\'Oswald\',sans-serif;font-size:13px;">FOLIO</th><th style="text-align:left;padding:10px;color:var(--pt-muted);font-family:\'Oswald\',sans-serif;font-size:13px;">FECHA</th><th style="text-align:center;padding:10px;color:var(--pt-muted);font-family:\'Oswald\',sans-serif;font-size:13px;">PRODUCTOS</th><th style="text-align:right;padding:10px;color:var(--pt-muted);font-family:\'Oswald\',sans-serif;font-size:13px;">TOTAL</th><th style="padding:10px;"></th></tr>';
     cots.forEach((c,i)=>{
-        html+=`<tr style="border-bottom:1px solid #222;"><td style="padding:10px;font-family:monospace;font-size:13px;color:#aaa;">${c.folio}</td><td style="padding:10px;color:#aaa;font-size:13px;">${c.fecha}</td><td style="padding:10px;text-align:center;color:#aaa;">${c.items.length}</td><td style="padding:10px;text-align:right;color:#4ade80;font-weight:700;">$${c.total.toFixed(2)}</td><td style="padding:10px;"><button class="p-btn" style="padding:6px 14px;font-size:11px;" onclick="verCotGuardada(${i})">Ver</button></td></tr>`;
+        html+=`<tr style="border-bottom:1px solid var(--pt-border);"><td style="padding:10px;font-family:monospace;font-size:13px;color:var(--pt-muted);">${c.folio}</td><td style="padding:10px;color:var(--pt-muted);font-size:13px;">${c.fecha}</td><td style="padding:10px;text-align:center;color:var(--pt-muted);">${c.items.length}</td><td style="padding:10px;text-align:right;color:var(--pt-price);font-weight:700;">$${c.total.toFixed(2)}</td><td style="padding:10px;"><button class="p-btn" style="padding:6px 14px;font-size:11px;" onclick="verCotGuardada(${i})">Ver</button></td></tr>`;
     });
     html+='</table></div>';
     container.innerHTML=html;
@@ -1312,13 +1352,13 @@ function verCotGuardada(idx){
 function renderPerfil(container){
     const perfil=JSON.parse(localStorage.getItem('selem_perfil')||'{}');
     container.innerHTML=`
-    <h2 style="font-family:'Oswald',sans-serif;font-size:24px;color:#fff;margin-bottom:20px;">Mi Perfil</h2>
+    <h2 style="font-family:'Oswald',sans-serif;font-size:24px;color:var(--pt-text);margin-bottom:20px;">Mi Perfil</h2>
     <div style="max-width:500px;">
-        <label style="display:block;color:#888;font-size:12px;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;font-family:'Oswald',sans-serif;">Nombre completo</label>
+        <label style="display:block;color:var(--pt-muted);font-size:12px;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;font-family:'Oswald',sans-serif;">Nombre completo</label>
         <input type="text" id="perfil-nombre" value="${perfil.nombre||portalUsuario.nombre||''}" style="margin-bottom:16px;">
-        <label style="display:block;color:#888;font-size:12px;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;font-family:'Oswald',sans-serif;">Empresa</label>
+        <label style="display:block;color:var(--pt-muted);font-size:12px;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;font-family:'Oswald',sans-serif;">Empresa</label>
         <input type="text" id="perfil-empresa" value="${perfil.empresa||portalUsuario.empresa||''}" style="margin-bottom:16px;">
-        <label style="display:block;color:#888;font-size:12px;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;font-family:'Oswald',sans-serif;">Teléfono</label>
+        <label style="display:block;color:var(--pt-muted);font-size:12px;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;font-family:'Oswald',sans-serif;">Teléfono</label>
         <input type="tel" id="perfil-tel" value="${perfil.telefono||''}" style="margin-bottom:24px;">
         <button class="p-btn" onclick="guardarPerfil()" style="padding:12px 32px;">Guardar</button>
         <button class="p-btn-outline" onclick="portalLogout()" style="margin-left:10px;padding:12px 32px;cursor:pointer;background:none;border:1px solid #CC0000;color:#CC0000;border-radius:6px;font-family:'Oswald',sans-serif;font-size:14px;">Cerrar sesión</button>
@@ -1343,7 +1383,7 @@ function guardarPerfil(){
 // ── BÚSQUEDA ──
 function portalBuscar(){
     const q=document.getElementById('portal-search-input').value.trim();
-    if(q.length<2){document.getElementById('portal-resultados').innerHTML='<p style="color:#888;text-align:center;padding:20px;">Escribe al menos 2 caracteres para buscar</p>';return;}
+    if(q.length<2){document.getElementById('portal-resultados').innerHTML='<p style="color:var(--pt-muted);text-align:center;padding:20px;">Escribe al menos 2 caracteres para buscar</p>';return;}
     const suc=document.getElementById('portal-suc-sel').value;
     portalSucPref=suc;
 
@@ -1395,11 +1435,11 @@ function renderResultados(query){
     const visible=portalResultados.slice(start,end);
 
     if(!portalResultados.length){
-        container.innerHTML=`<p style="color:#888;text-align:center;padding:40px;">No se encontraron productos para "<strong>${query||''}</strong>"</p>`;
+        container.innerHTML=`<p style="color:var(--pt-muted);text-align:center;padding:40px;">No se encontraron productos para "<strong>${query||''}</strong>"</p>`;
         return;
     }
 
-    let html=`<p style="color:#888;margin-bottom:16px;">${portalResultados.length.toLocaleString()} productos encontrados${query?' para "<strong>'+query+'</strong>"':''}</p>`;
+    let html=`<p style="color:var(--pt-muted);margin-bottom:16px;">${portalResultados.length.toLocaleString()} productos encontrados${query?' para "<strong>'+query+'</strong>"':''}</p>`;
 
     visible.forEach(p=>{
         const stockChips=renderStockChips(p.s);
@@ -1408,16 +1448,16 @@ function renderResultados(query){
             <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;" class="p-result-row">
                 <div style="flex:1;min-width:200px;">
                     <div style="margin-bottom:6px;">
-                        <span class="p-badge" style="background:#1a1a1a;color:#888;">F:${p.f}</span>
-                        <span class="p-badge" style="background:#1a1a1a;color:#888;">${p.c}</span>
-                        <span class="p-badge" style="background:#222;color:#aaa;">${p.m}</span>
+                        <span class="p-badge" style="background:var(--pt-chip-bg);color:var(--pt-muted);">F:${p.f}</span>
+                        <span class="p-badge" style="background:var(--pt-chip-bg);color:var(--pt-muted);">${p.c}</span>
+                        <span class="p-badge" style="background:var(--pt-border);color:var(--pt-muted);">${p.m}</span>
                     </div>
-                    <div style="font-size:15px;font-weight:600;color:#fff;margin:8px 0;line-height:1.3;">${p.d}</div>
+                    <div style="font-size:15px;font-weight:600;color:var(--pt-text);margin:8px 0;line-height:1.3;">${p.d}</div>
                     <div style="display:flex;flex-wrap:wrap;gap:0;">${stockChips}</div>
                 </div>
                 <div style="text-align:right;min-width:130px;display:flex;flex-direction:column;align-items:flex-end;" class="p-result-right">
-                    <div style="font-size:24px;color:#4ade80;font-weight:700;font-family:'Oswald',sans-serif;">$${p.p.toFixed(2)}</div>
-                    <div style="font-size:10px;color:#666;margin-bottom:10px;">precio público c/IVA</div>
+                    <div style="font-size:24px;color:var(--pt-price);font-weight:700;font-family:'Oswald',sans-serif;">$${p.p.toFixed(2)}</div>
+                    <div style="font-size:10px;color:var(--pt-muted);margin-bottom:10px;">precio público c/IVA</div>
                     <button class="p-btn" style="padding:8px 16px;font-size:12px;width:100%;" onclick='agregarAlCarrito(${JSON.stringify(p).replace(/'/g,"&#39;")})'>+ Cotizar</button>
                 </div>
             </div>
@@ -1480,30 +1520,39 @@ function updateCartBadge(){
 
 function renderCarrito(){
     const container=document.getElementById('portal-carrito-content');
-    let html=`<div style="padding:16px;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center;">
-        <h3 style="font-family:'Oswald',sans-serif;font-size:18px;color:#fff;">🛒 Cotización</h3>
-        <button onclick="toggleCarrito()" style="background:none;border:none;color:#888;font-size:20px;cursor:pointer;">✕</button>
+    const ov=document.getElementById('portal-overlay');
+    const cs=getComputedStyle(ov);
+    const ptSurface=cs.getPropertyValue('--pt-surface').trim();
+    const ptBorder=cs.getPropertyValue('--pt-border').trim();
+    const ptText=cs.getPropertyValue('--pt-text').trim();
+    const ptMuted=cs.getPropertyValue('--pt-muted').trim();
+    const ptPrice=cs.getPropertyValue('--pt-price').trim();
+    const ptInputBg=cs.getPropertyValue('--pt-input-bg').trim();
+
+    let html=`<div style="padding:16px;border-bottom:1px solid ${ptBorder};display:flex;justify-content:space-between;align-items:center;">
+        <h3 style="font-family:'Oswald',sans-serif;font-size:18px;color:${ptText};">🛒 Cotización</h3>
+        <button onclick="toggleCarrito()" style="background:none;border:none;color:${ptMuted};font-size:20px;cursor:pointer;">✕</button>
     </div>`;
 
     if(!portalCarrito.length){
-        html+='<div style="padding:40px 20px;text-align:center;color:#666;"><p>Tu cotización está vacía</p></div>';
+        html+=`<div style="padding:40px 20px;text-align:center;color:${ptMuted};"><p>Tu cotización está vacía</p></div>`;
     } else {
         html+='<div style="padding:12px;">';
         portalCarrito.forEach((item,i)=>{
             html+=`
-            <div style="background:#1a1a1a;border-radius:8px;padding:12px;margin-bottom:8px;">
+            <div style="background:${ptInputBg};border-radius:8px;padding:12px;margin-bottom:8px;">
                 <div style="display:flex;justify-content:space-between;align-items:start;">
-                    <div style="flex:1;font-size:13px;color:#fff;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${item.d}</div>
-                    <button onclick="eliminarDelCarrito(${i})" style="background:none;border:none;color:#666;cursor:pointer;font-size:16px;margin-left:8px;">🗑</button>
+                    <div style="flex:1;font-size:13px;color:${ptText};line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${item.d}</div>
+                    <button onclick="eliminarDelCarrito(${i})" style="background:none;border:none;color:${ptMuted};cursor:pointer;font-size:16px;margin-left:8px;">🗑</button>
                 </div>
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
                     <div style="display:flex;align-items:center;gap:8px;">
-                        <label style="color:#888;font-size:11px;">Cant:</label>
-                        <input type="number" min="1" value="${item.qty}" onchange="cambiarCantidad(${i},this.value)" style="width:60px;padding:6px;font-size:13px;text-align:center;">
+                        <label style="color:${ptMuted};font-size:11px;">Cant:</label>
+                        <input type="number" min="1" value="${item.qty}" onchange="cambiarCantidad(${i},this.value)" style="width:60px;padding:6px;font-size:13px;text-align:center;background:${ptInputBg};color:${ptText};border:1px solid ${ptBorder};border-radius:4px;">
                     </div>
                     <div style="text-align:right;">
-                        <div style="color:#888;font-size:11px;">$${item.p.toFixed(2)} c/u</div>
-                        <div style="color:#4ade80;font-weight:700;font-size:15px;">$${(item.p*item.qty).toFixed(2)}</div>
+                        <div style="color:${ptMuted};font-size:11px;">$${item.p.toFixed(2)} c/u</div>
+                        <div style="color:${ptPrice};font-weight:700;font-size:15px;">$${(item.p*item.qty).toFixed(2)}</div>
                     </div>
                 </div>
             </div>`;
@@ -1515,13 +1564,13 @@ function renderCarrito(){
         const iva=totalConIVA-subtotalSinIVA;
 
         html+=`
-        <div style="border-top:1px solid #333;padding:16px;">
-            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#888;font-size:13px;">Total items:</span><span style="color:#aaa;">${portalCarrito.reduce((s,it)=>s+it.qty,0)} productos</span></div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#4ade80;font-size:18px;font-weight:700;font-family:'Oswald',sans-serif;">Total c/IVA:</span><span style="color:#4ade80;font-size:18px;font-weight:700;font-family:'Oswald',sans-serif;">$${totalConIVA.toFixed(2)}</span></div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#666;font-size:12px;">IVA incluido (16%):</span><span style="color:#666;font-size:12px;">$${iva.toFixed(2)}</span></div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:16px;"><span style="color:#666;font-size:12px;">Subtotal sin IVA:</span><span style="color:#666;font-size:12px;">$${subtotalSinIVA.toFixed(2)}</span></div>
+        <div style="border-top:1px solid ${ptBorder};padding:16px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:${ptMuted};font-size:13px;">Total items:</span><span style="color:${ptMuted};">${portalCarrito.reduce((s,it)=>s+it.qty,0)} productos</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:${ptPrice};font-size:18px;font-weight:700;font-family:'Oswald',sans-serif;">Total c/IVA:</span><span style="color:${ptPrice};font-size:18px;font-weight:700;font-family:'Oswald',sans-serif;">$${totalConIVA.toFixed(2)}</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:${ptMuted};font-size:12px;">IVA incluido (16%):</span><span style="color:${ptMuted};font-size:12px;">$${iva.toFixed(2)}</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:16px;"><span style="color:${ptMuted};font-size:12px;">Subtotal sin IVA:</span><span style="color:${ptMuted};font-size:12px;">$${subtotalSinIVA.toFixed(2)}</span></div>
             <button class="p-btn" style="width:100%;padding:14px;" onclick="generarCotizacion()">📄 Generar Cotización</button>
-            <button class="p-btn-outline" style="width:100%;padding:10px;margin-top:8px;cursor:pointer;background:none;border:1px solid #555;color:#aaa;border-radius:6px;font-family:'Oswald',sans-serif;font-size:13px;" onclick="portalCarrito=[];updateCartBadge();renderCarrito();">Vaciar</button>
+            <button class="p-btn-outline" style="width:100%;padding:10px;margin-top:8px;cursor:pointer;background:none;border-radius:6px;font-family:'Oswald',sans-serif;font-size:13px;" onclick="portalCarrito=[];updateCartBadge();renderCarrito();">Vaciar</button>
         </div>`;
     }
 
