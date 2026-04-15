@@ -247,7 +247,7 @@
         .hero {
             position: relative;
             height: auto;
-            min-height: 600px;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -258,9 +258,10 @@
             position: absolute;
             inset: 0;
             background-image: url('images/hero_selem.jpg');
-            background-size: cover;
-            background-position: center top;
+            background-size: auto 100%;
+            background-position: center center;
             background-repeat: no-repeat;
+            background-color: #0a0a0a;
         }
         .hero-bg::after {
             content: '';
