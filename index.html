@@ -277,48 +277,6 @@
             .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
         }
 
-        /* ══════════════════════════════════════
-           CATEGORÍAS
-           ══════════════════════════════════════ */
-        .categorias { background: #111; }
-        .categorias-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-        .cat-card {
-            background: #1a1a1a;
-            border-radius: 8px;
-            padding: 36px 24px;
-            text-align: center;
-            border: 1px solid #2a2a2a;
-            transition: all 0.3s ease;
-        }
-        .cat-card:hover {
-            transform: translateY(-6px);
-            border-color: #CC0000;
-            box-shadow: 0 8px 30px rgba(204, 0, 0, 0.15);
-        }
-        .cat-card-icon {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 16px;
-        }
-        .cat-card-icon svg { width: 100%; height: 100%; stroke: #CC0000; fill: none; }
-        .cat-card h3 {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-        .cat-card p { color: #999; font-size: 0.9rem; font-weight: 300; }
-
-        @media (max-width: 768px) {
-            .categorias-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 480px) {
-            .categorias-grid { grid-template-columns: 1fr; }
-        }
 
         /* ══════════════════════════════════════
            POR QUÉ SELEM
@@ -640,7 +598,6 @@
         </a>
         <div class="navbar-links" id="navLinks">
             <a href="#inicio">Inicio</a>
-            <a href="#categorias">Categorías</a>
             <a href="#sucursales">Sucursales</a>
             <a href="#yadea">YADEA</a>
             <a href="#contacto">Contacto</a>
@@ -664,7 +621,7 @@
         <h1 class="hero-title">Cuenta con nuestra parte</h1>
         <p class="hero-subtitle">Refacciones y accesorios para motocicletas · 17 sucursales en Yucatán y Campeche</p>
         <div class="hero-buttons">
-            <a href="#categorias" class="btn btn-red">Ver Categorías</a>
+            <a href="#sucursales" class="btn btn-red">Ver Sucursales</a>
             <a href="#sucursales" class="btn btn-outline">Encuéntranos</a>
         </div>
     </div>
@@ -701,86 +658,6 @@
     </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     CATEGORÍAS
-     ══════════════════════════════════════ -->
-<section class="categorias section-padding" id="categorias">
-    <div class="container">
-        <h2 class="section-title fade-in">Encuentra lo que tu moto necesita</h2>
-        <p class="section-subtitle fade-in">Todo para tu motocicleta en un solo lugar</p>
-        <div class="categorias-grid">
-            <!-- Refacciones -->
-            <div class="cat-card fade-in">
-                <div class="cat-card-icon">
-                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-                    </svg>
-                </div>
-                <h3>Refacciones</h3>
-                <p>Motor, transmisión, frenos y más</p>
-            </div>
-            <!-- Accesorios -->
-            <div class="cat-card fade-in">
-                <div class="cat-card-icon">
-                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                        <path d="M2 17l10 5 10-5"/>
-                        <path d="M2 12l10 5 10-5"/>
-                    </svg>
-                </div>
-                <h3>Accesorios</h3>
-                <p>Personaliza y protege tu moto</p>
-            </div>
-            <!-- Lubricantes -->
-            <div class="cat-card fade-in">
-                <div class="cat-card-icon">
-                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M6 3v18"/>
-                        <path d="M6 3c3 0 6 2 6 5s-3 5-6 5"/>
-                        <circle cx="17" cy="17" r="3"/>
-                        <path d="M17 14v-4h2"/>
-                    </svg>
-                </div>
-                <h3>Lubricantes</h3>
-                <p>Aceites y líquidos de alta calidad</p>
-            </div>
-            <!-- Cascos -->
-            <div class="cat-card fade-in">
-                <div class="cat-card-icon">
-                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2a9 9 0 0 0-9 9v4a2 2 0 0 0 2 2h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H5a7 7 0 0 1 14 0h-1a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1a2 2 0 0 0 2-2v-4a9 9 0 0 0-9-9z"/>
-                        <path d="M12 18v2a2 2 0 0 0 2 2h1"/>
-                    </svg>
-                </div>
-                <h3>Cascos y Equipo</h3>
-                <p>Tu seguridad es primero</p>
-            </div>
-            <!-- Llantas -->
-            <div class="cat-card fade-in">
-                <div class="cat-card-icon">
-                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <circle cx="12" cy="12" r="6"/>
-                        <circle cx="12" cy="12" r="2"/>
-                    </svg>
-                </div>
-                <h3>Llantas</h3>
-                <p>Tracción para cada terreno</p>
-            </div>
-            <!-- YADEA -->
-            <div class="cat-card fade-in">
-                <div class="cat-card-icon">
-                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                    </svg>
-                </div>
-                <h3>Motos Eléctricas YADEA</h3>
-                <p>La nueva era del transporte</p>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- ══════════════════════════════════════
      POR QUÉ SELEM
@@ -1118,7 +995,6 @@
                 <h4>Enlaces</h4>
                 <div class="footer-links">
                     <a href="#inicio">Inicio</a>
-                    <a href="#categorias">Categorías</a>
                     <a href="#sucursales">Sucursales</a>
                     <a href="#yadea">YADEA</a>
                     <a href="#contacto">Contacto</a>
