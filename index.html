@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SELEM Motorefacciones — Cuenta con nuestra parte</title>
-    <meta name="description" content="Refacciones y accesorios para motocicletas. 17 sucursales en Yucatán y Campeche. Más de 20 años de experiencia. Distribuidores oficiales YADEA.">
+    <meta name="description" content="Refacciones y accesorios para motocicletas. 17 sucursales en Yucatán y Campeche. Más de 20 años de experiencia. Más de 15 sucursales en el sureste de México.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -313,74 +313,6 @@
             .porque-grid { grid-template-columns: 1fr; gap: 24px; }
         }
 
-        /* ══════════════════════════════════════
-           YADEA
-           ══════════════════════════════════════ */
-        .yadea {
-            background: linear-gradient(135deg, #1a1a1a 0%, #111 50%, #1a0a0a 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        .yadea::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(204,0,0,0.08) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-        .yadea .container { position: relative; z-index: 1; }
-        .yadea-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-        .yadea-card {
-            background: #222;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #333;
-            transition: all 0.3s ease;
-        }
-        .yadea-card:hover {
-            transform: translateY(-6px);
-            border-color: #CC0000;
-            box-shadow: 0 8px 30px rgba(204, 0, 0, 0.2);
-        }
-        .yadea-card-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .yadea-card-body { padding: 20px; }
-        .yadea-card-body h3 {
-            font-size: 1.15rem;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-        .yadea-card-body p { color: #aaa; font-size: 0.85rem; margin-bottom: 14px; font-weight: 300; }
-        .yadea-badge {
-            display: inline-block;
-            background: rgba(37, 211, 102, 0.15);
-            color: #25D366;
-            font-size: 0.75rem;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-weight: 500;
-            margin-bottom: 14px;
-        }
-        .yadea-card .btn { width: 100%; text-align: center; padding: 10px; font-size: 0.85rem; }
-        .yadea-cta { text-align: center; }
-
-        @media (max-width: 900px) {
-            .yadea-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 480px) {
-            .yadea-grid { grid-template-columns: 1fr; }
-        }
 
         /* ══════════════════════════════════════
            SUCURSALES
@@ -599,7 +531,6 @@
         <div class="navbar-links" id="navLinks">
             <a href="#inicio">Inicio</a>
             <a href="#sucursales">Sucursales</a>
-            <a href="#yadea">YADEA</a>
             <a href="#contacto">Contacto</a>
             <a href="#redes">Síguenos</a>
             <a href="https://api.whatsapp.com/send?phone=5219992313231&text=hola%2C%20quiero%20cotizar%20%F0%9F%98%8E" target="_blank" class="navbar-wa">📱 WhatsApp</a>
@@ -700,56 +631,6 @@
     </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     YADEA
-     ══════════════════════════════════════ -->
-<section class="yadea section-padding" id="yadea">
-    <div class="container">
-        <h2 class="section-title fade-in">Motos Eléctricas YADEA</h2>
-        <p class="section-subtitle fade-in">Distribuidores oficiales en el sureste de México</p>
-        <div class="yadea-grid">
-            <div class="yadea-card fade-in">
-                <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400" alt="YADEA C16 Pro" class="yadea-card-img" loading="lazy">
-                <div class="yadea-card-body">
-                    <h3>C16 Pro</h3>
-                    <p>La más popular, autonomía 80km</p>
-                    <span class="yadea-badge">Disponible</span>
-                    <a href="#contacto" class="btn btn-red">Más info</a>
-                </div>
-            </div>
-            <div class="yadea-card fade-in">
-                <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400" alt="YADEA C13" class="yadea-card-img" loading="lazy">
-                <div class="yadea-card-body">
-                    <h3>C13</h3>
-                    <p>Diseño urbano, ligera y ágil</p>
-                    <span class="yadea-badge">Disponible</span>
-                    <a href="#contacto" class="btn btn-red">Más info</a>
-                </div>
-            </div>
-            <div class="yadea-card fade-in">
-                <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400" alt="YADEA Cool Joy" class="yadea-card-img" loading="lazy">
-                <div class="yadea-card-body">
-                    <h3>Cool Joy</h3>
-                    <p>Perfecta para la ciudad</p>
-                    <span class="yadea-badge">Disponible</span>
-                    <a href="#contacto" class="btn btn-red">Más info</a>
-                </div>
-            </div>
-            <div class="yadea-card fade-in">
-                <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400" alt="YADEA Teena" class="yadea-card-img" loading="lazy">
-                <div class="yadea-card-body">
-                    <h3>Teena</h3>
-                    <p>Estilo retro, máximo confort</p>
-                    <span class="yadea-badge">Disponible</span>
-                    <a href="#contacto" class="btn btn-red">Más info</a>
-                </div>
-            </div>
-        </div>
-        <div class="yadea-cta fade-in">
-            <a href="#contacto" class="btn btn-red">Conoce toda la línea YADEA</a>
-        </div>
-    </div>
-</section>
 
 <!-- ══════════════════════════════════════
      SUCURSALES
@@ -996,7 +877,6 @@
                 <div class="footer-links">
                     <a href="#inicio">Inicio</a>
                     <a href="#sucursales">Sucursales</a>
-                    <a href="#yadea">YADEA</a>
                     <a href="#contacto">Contacto</a>
                 </div>
             </div>
