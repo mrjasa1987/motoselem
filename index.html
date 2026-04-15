@@ -246,7 +246,7 @@
            ══════════════════════════════════════ */
         .hero {
             position: relative;
-            height: 100vh;
+            height: auto;
             min-height: 600px;
             display: flex;
             align-items: center;
@@ -257,7 +257,10 @@
         .hero-bg {
             position: absolute;
             inset: 0;
-            background: url('images/hero_selem.jpg') center/cover no-repeat;
+            background-image: url('images/hero_selem.jpg');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
         }
         .hero-bg::after {
             content: '';
