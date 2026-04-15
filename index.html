@@ -988,8 +988,41 @@
     const passBtn = document.getElementById('constructionBtn');
     const passError = document.getElementById('constructionError');
 
+    // ── Inactividad timeout ──
+    let inactividadTimer = null;
+    const INACTIVIDAD_MS = 5 * 60 * 1000;
+
+    function mostrarPantallaConstructor() {
+        overlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        passInput.value = '';
+    }
+
+    const resetInactividad = () => {
+        if (overlay.classList.contains('hidden')) {
+            clearTimeout(inactividadTimer);
+            inactividadTimer = setTimeout(() => {
+                sessionStorage.removeItem('selem_auth');
+                mostrarPantallaConstructor();
+                const portalOv = document.getElementById('portal-overlay');
+                if (portalOv && portalOv.style.display !== 'none') {
+                    cerrarPortal();
+                }
+                passError.textContent = 'Sesión expirada por inactividad. Ingresa tu contraseña.';
+            }, INACTIVIDAD_MS);
+        }
+    };
+
+    const iniciarMonitorInactividad = () => {
+        ['mousemove','keydown','click','scroll','touchstart'].forEach(ev => {
+            document.addEventListener(ev, resetInactividad, { passive: true });
+        });
+        resetInactividad();
+    };
+
     if (sessionStorage.getItem('selem_auth') === 'ok') {
         overlay.classList.add('hidden');
+        iniciarMonitorInactividad();
     } else {
         document.body.style.overflow = 'hidden';
     }
@@ -1000,6 +1033,7 @@
             overlay.classList.add('hidden');
             document.body.style.overflow = '';
             passError.textContent = '';
+            iniciarMonitorInactividad();
         } else {
             passError.textContent = 'Contraseña incorrecta';
             passInput.value = '';
