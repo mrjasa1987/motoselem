@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELEM Motorefacciones — Cuenta con nuestra parte</title>
+    <meta name="description" content="Refacciones y accesorios para motocicletas. 17 sucursales en Yucatán y Campeche. Más de 20 años de experiencia. Distribuidores oficiales YADEA.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ══════════════════════════════════════
+           RESET & BASE
+           ══════════════════════════════════════ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #111111;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Oswald', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* ══════════════════════════════════════
+           UTILITIES
+           ══════════════════════════════════════ */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: #aaa;
+            font-size: 1.05rem;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+        .section-padding { padding: 80px 0; }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-weight: 500;
+        }
+        .btn-red { background: #CC0000; color: #fff; border-color: #CC0000; }
+        .btn-red:hover { background: #a00000; border-color: #a00000; transform: translateY(-2px); box-shadow: 0 4px 20px rgba(204,0,0,0.4); }
+        .btn-outline { background: transparent; color: #fff; border-color: #fff; }
+        .btn-outline:hover { background: #fff; color: #111; transform: translateY(-2px); }
+        .btn-white { background: #fff; color: #CC0000; border-color: #fff; }
+        .btn-white:hover { background: #f0f0f0; transform: translateY(-2px); box-shadow: 0 4px 20px rgba(255,255,255,0.3); }
+        .btn-outline-white { background: transparent; color: #fff; border-color: #fff; }
+        .btn-outline-white:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ══════════════════════════════════════
+           NAVBAR
+           ══════════════════════════════════════ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 10px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #CC0000;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        .navbar-links a {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fff;
+            transition: color 0.3s;
+            font-weight: 400;
+        }
+        .navbar-links a:hover { color: #CC0000; }
+        .navbar-wa {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #25D366;
+            color: #fff !important;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 0.9rem !important;
+            transition: background 0.3s, transform 0.3s !important;
+        }
+        .navbar-wa:hover { background: #1da851 !important; transform: translateY(-1px); }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+        .hamburger span {
+            width: 26px;
+            height: 2px;
+            background: #fff;
+            transition: all 0.3s;
+            display: block;
+        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .navbar-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: #111;
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                gap: 20px;
+                transition: right 0.3s ease;
+                box-shadow: -4px 0 20px rgba(0,0,0,0.5);
+            }
+            .navbar-links.open { right: 0; }
+            .navbar-links a { font-size: 1.1rem; }
+        }
+
+        /* ══════════════════════════════════════
+           HERO
+           ══════════════════════════════════════ */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600') center/cover no-repeat;
+        }
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 20px;
+            max-width: 800px;
+        }
+        .hero-title {
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 30px rgba(204, 0, 0, 0.4);
+        }
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #ccc;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: bounce 2s infinite;
+        }
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            stroke: #fff;
+            opacity: 0.6;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* ══════════════════════════════════════
+           STATS / CONFIANZA
+           ══════════════════════════════════════ */
+        .stats {
+            background: #CC0000;
+            padding: 50px 0;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+        .stat-item h3 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .stat-item p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        }
+
+        /* ══════════════════════════════════════
+           CATEGORÍAS
+           ══════════════════════════════════════ */
+        .categorias { background: #111; }
+        .categorias-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .cat-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 36px 24px;
+            text-align: center;
+            border: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+        }
+        .cat-card:hover {
+            transform: translateY(-6px);
+            border-color: #CC0000;
+            box-shadow: 0 8px 30px rgba(204, 0, 0, 0.15);
+        }
+        .cat-card-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 16px;
+        }
+        .cat-card-icon svg { width: 100%; height: 100%; stroke: #CC0000; fill: none; }
+        .cat-card h3 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .cat-card p { color: #999; font-size: 0.9rem; font-weight: 300; }
+
+        @media (max-width: 768px) {
+            .categorias-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .categorias-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ══════════════════════════════════════
+           POR QUÉ SELEM
+           ══════════════════════════════════════ */
+        .porque { background: #181818; }
+        .porque-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        .porque-item {
+            text-align: center;
+            padding: 20px;
+        }
+        .porque-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(204, 0, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.5rem;
+        }
+        .porque-item h3 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .porque-item p { color: #aaa; font-size: 0.95rem; font-weight: 300; }
+
+        @media (max-width: 768px) {
+            .porque-grid { grid-template-columns: 1fr; gap: 24px; }
+        }
+
+        /* ══════════════════════════════════════
+           YADEA
+           ══════════════════════════════════════ */
+        .yadea {
+            background: linear-gradient(135deg, #1a1a1a 0%, #111 50%, #1a0a0a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .yadea::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(204,0,0,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .yadea .container { position: relative; z-index: 1; }
+        .yadea-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .yadea-card {
+            background: #222;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+        .yadea-card:hover {
+            transform: translateY(-6px);
+            border-color: #CC0000;
+            box-shadow: 0 8px 30px rgba(204, 0, 0, 0.2);
+        }
+        .yadea-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .yadea-card-body { padding: 20px; }
+        .yadea-card-body h3 {
+            font-size: 1.15rem;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .yadea-card-body p { color: #aaa; font-size: 0.85rem; margin-bottom: 14px; font-weight: 300; }
+        .yadea-badge {
+            display: inline-block;
+            background: rgba(37, 211, 102, 0.15);
+            color: #25D366;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            margin-bottom: 14px;
+        }
+        .yadea-card .btn { width: 100%; text-align: center; padding: 10px; font-size: 0.85rem; }
+        .yadea-cta { text-align: center; }
+
+        @media (max-width: 900px) {
+            .yadea-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .yadea-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ══════════════════════════════════════
+           SUCURSALES
+           ══════════════════════════════════════ */
+        .sucursales { background: #111; }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            font-family: 'Oswald', sans-serif;
+            background: #222;
+            color: #aaa;
+            border: 1px solid #333;
+            padding: 10px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .tab-btn:hover { border-color: #CC0000; color: #fff; }
+        .tab-btn.active { background: #CC0000; border-color: #CC0000; color: #fff; }
+
+        .sucursales-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        .suc-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 24px;
+            border-left: 4px solid var(--suc-color, #CC0000);
+            transition: all 0.3s ease;
+        }
+        .suc-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .suc-card h3 {
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .suc-card .suc-location {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 14px;
+            font-weight: 300;
+        }
+        .suc-card-buttons { display: flex; gap: 8px; }
+        .suc-btn {
+            flex: 1;
+            text-align: center;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        .suc-btn-maps { background: #333; color: #fff; }
+        .suc-btn-maps:hover { background: #444; }
+        .suc-btn-wa { background: #25D366; color: #fff; }
+        .suc-btn-wa:hover { background: #1da851; }
+
+        .suc-card.hidden { display: none; }
+
+        /* ══════════════════════════════════════
+           CONTACTO / CTA
+           ══════════════════════════════════════ */
+        .contacto {
+            background: #CC0000;
+            text-align: center;
+            padding: 70px 0;
+        }
+        .contacto h2 {
+            font-size: clamp(1.6rem, 4vw, 2.5rem);
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+        .contacto-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ══════════════════════════════════════
+           FOOTER
+           ══════════════════════════════════════ */
+        .footer {
+            background: #0a0a0a;
+            padding: 50px 0 30px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-brand .navbar-logo { margin-bottom: 10px; }
+        .footer-brand p { color: #777; font-size: 0.9rem; font-weight: 300; }
+        .footer h4 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+        .footer-links a {
+            display: block;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover { color: #CC0000; }
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            background: #222;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .footer-social a:hover { background: #CC0000; }
+        .footer-social svg { width: 18px; height: 18px; fill: #fff; }
+        .footer-bottom {
+            border-top: 1px solid #222;
+            padding-top: 24px;
+            text-align: center;
+            color: #555;
+            font-size: 0.85rem;
+        }
+        .footer-bottom span { color: #CC0000; }
+
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+            .footer-social { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAVBAR
+     ══════════════════════════════════════ -->
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <a href="#inicio" class="navbar-logo">SELEM</a>
+        <div class="navbar-links" id="navLinks">
+            <a href="#inicio">Inicio</a>
+            <a href="#categorias">Categorías</a>
+            <a href="#sucursales">Sucursales</a>
+            <a href="#yadea">YADEA</a>
+            <a href="#contacto">Contacto</a>
+            <a href="https://wa.me/529991234567" target="_blank" class="navbar-wa">📱 WhatsApp</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     HERO
+     ══════════════════════════════════════ -->
+<section class="hero" id="inicio">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <h1 class="hero-title">Cuenta con nuestra parte</h1>
+        <p class="hero-subtitle">Refacciones y accesorios para motocicletas · 17 sucursales en Yucatán y Campeche</p>
+        <div class="hero-buttons">
+            <a href="#categorias" class="btn btn-red">Ver Categorías</a>
+            <a href="#sucursales" class="btn btn-outline">Encuéntranos</a>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     STATS
+     ══════════════════════════════════════ -->
+<section class="stats">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item fade-in">
+                <h3>20+</h3>
+                <p>Años de experiencia</p>
+            </div>
+            <div class="stat-item fade-in">
+                <h3>17</h3>
+                <p>Sucursales</p>
+            </div>
+            <div class="stat-item fade-in">
+                <h3>2</h3>
+                <p>Estados</p>
+            </div>
+            <div class="stat-item fade-in">
+                <h3>1000+</h3>
+                <p>Productos disponibles</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CATEGORÍAS
+     ══════════════════════════════════════ -->
+<section class="categorias section-padding" id="categorias">
+    <div class="container">
+        <h2 class="section-title fade-in">Encuentra lo que tu moto necesita</h2>
+        <p class="section-subtitle fade-in">Todo para tu motocicleta en un solo lugar</p>
+        <div class="categorias-grid">
+            <!-- Refacciones -->
+            <div class="cat-card fade-in">
+                <div class="cat-card-icon">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                </div>
+                <h3>Refacciones</h3>
+                <p>Motor, transmisión, frenos y más</p>
+            </div>
+            <!-- Accesorios -->
+            <div class="cat-card fade-in">
+                <div class="cat-card-icon">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <h3>Accesorios</h3>
+                <p>Personaliza y protege tu moto</p>
+            </div>
+            <!-- Lubricantes -->
+            <div class="cat-card fade-in">
+                <div class="cat-card-icon">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 3v18"/>
+                        <path d="M6 3c3 0 6 2 6 5s-3 5-6 5"/>
+                        <circle cx="17" cy="17" r="3"/>
+                        <path d="M17 14v-4h2"/>
+                    </svg>
+                </div>
+                <h3>Lubricantes</h3>
+                <p>Aceites y líquidos de alta calidad</p>
+            </div>
+            <!-- Cascos -->
+            <div class="cat-card fade-in">
+                <div class="cat-card-icon">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a9 9 0 0 0-9 9v4a2 2 0 0 0 2 2h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H5a7 7 0 0 1 14 0h-1a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1a2 2 0 0 0 2-2v-4a9 9 0 0 0-9-9z"/>
+                        <path d="M12 18v2a2 2 0 0 0 2 2h1"/>
+                    </svg>
+                </div>
+                <h3>Cascos y Equipo</h3>
+                <p>Tu seguridad es primero</p>
+            </div>
+            <!-- Llantas -->
+            <div class="cat-card fade-in">
+                <div class="cat-card-icon">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="6"/>
+                        <circle cx="12" cy="12" r="2"/>
+                    </svg>
+                </div>
+                <h3>Llantas</h3>
+                <p>Tracción para cada terreno</p>
+            </div>
+            <!-- YADEA -->
+            <div class="cat-card fade-in">
+                <div class="cat-card-icon">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                </div>
+                <h3>Motos Eléctricas YADEA</h3>
+                <p>La nueva era del transporte</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     POR QUÉ SELEM
+     ══════════════════════════════════════ -->
+<section class="porque section-padding" id="porque">
+    <div class="container">
+        <h2 class="section-title fade-in">¿Por qué elegir Selem?</h2>
+        <p class="section-subtitle fade-in">Tu refaccionaria de confianza en el sureste</p>
+        <div class="porque-grid">
+            <div class="porque-item fade-in">
+                <div class="porque-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#CC0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </div>
+                <h3>Experiencia</h3>
+                <p>Más de 20 años siendo la refaccionaria de confianza en el sureste de México</p>
+            </div>
+            <div class="porque-item fade-in">
+                <div class="porque-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#CC0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                </div>
+                <h3>Cobertura</h3>
+                <p>17 sucursales estratégicamente ubicadas en Yucatán y Campeche</p>
+            </div>
+            <div class="porque-item fade-in">
+                <div class="porque-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#CC0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                        <path d="M16 7V5a4 4 0 0 0-8 0v2"/>
+                    </svg>
+                </div>
+                <h3>Mayoreo y Menudeo</h3>
+                <p>Atendemos tanto al consumidor final como a distribuidores y talleres</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     YADEA
+     ══════════════════════════════════════ -->
+<section class="yadea section-padding" id="yadea">
+    <div class="container">
+        <h2 class="section-title fade-in">Motos Eléctricas YADEA</h2>
+        <p class="section-subtitle fade-in">Distribuidores oficiales en el sureste de México</p>
+        <div class="yadea-grid">
+            <div class="yadea-card fade-in">
+                <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400" alt="YADEA C16 Pro" class="yadea-card-img" loading="lazy">
+                <div class="yadea-card-body">
+                    <h3>C16 Pro</h3>
+                    <p>La más popular, autonomía 80km</p>
+                    <span class="yadea-badge">Disponible</span>
+                    <a href="#contacto" class="btn btn-red">Más info</a>
+                </div>
+            </div>
+            <div class="yadea-card fade-in">
+                <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400" alt="YADEA C13" class="yadea-card-img" loading="lazy">
+                <div class="yadea-card-body">
+                    <h3>C13</h3>
+                    <p>Diseño urbano, ligera y ágil</p>
+                    <span class="yadea-badge">Disponible</span>
+                    <a href="#contacto" class="btn btn-red">Más info</a>
+                </div>
+            </div>
+            <div class="yadea-card fade-in">
+                <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400" alt="YADEA Cool Joy" class="yadea-card-img" loading="lazy">
+                <div class="yadea-card-body">
+                    <h3>Cool Joy</h3>
+                    <p>Perfecta para la ciudad</p>
+                    <span class="yadea-badge">Disponible</span>
+                    <a href="#contacto" class="btn btn-red">Más info</a>
+                </div>
+            </div>
+            <div class="yadea-card fade-in">
+                <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400" alt="YADEA Teena" class="yadea-card-img" loading="lazy">
+                <div class="yadea-card-body">
+                    <h3>Teena</h3>
+                    <p>Estilo retro, máximo confort</p>
+                    <span class="yadea-badge">Disponible</span>
+                    <a href="#contacto" class="btn btn-red">Más info</a>
+                </div>
+            </div>
+        </div>
+        <div class="yadea-cta fade-in">
+            <a href="#contacto" class="btn btn-red">Conoce toda la línea YADEA</a>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SUCURSALES
+     ══════════════════════════════════════ -->
+<section class="sucursales section-padding" id="sucursales">
+    <div class="container">
+        <h2 class="section-title fade-in">Encuéntranos cerca de ti</h2>
+        <p class="section-subtitle fade-in">17 sucursales en Yucatán y Campeche</p>
+
+        <div class="tabs fade-in">
+            <button class="tab-btn active" data-filter="todas">Todas</button>
+            <button class="tab-btn" data-filter="merida">Mérida</button>
+            <button class="tab-btn" data-filter="campeche">Campeche</button>
+            <button class="tab-btn" data-filter="otros">Otros</button>
+        </div>
+
+        <div class="sucursales-grid" id="sucursalesGrid">
+            <!-- MÉRIDA -->
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#8E24AA">
+                <h3>Caucel</h3>
+                <p class="suc-location">Mérida, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#1E88E5">
+                <h3>Centro 71</h3>
+                <p class="suc-location">Mérida, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#00ACC1">
+                <h3>Fco Montejo</h3>
+                <p class="suc-location">Mérida, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#43A047">
+                <h3>Kanasín</h3>
+                <p class="suc-location">Mérida, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#F4511E">
+                <h3>Paloma</h3>
+                <p class="suc-location">Mérida, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#FB8C00">
+                <h3>Melitón</h3>
+                <p class="suc-location">Mérida, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#F9A825">
+                <h3>México Norte</h3>
+                <p class="suc-location">Mérida, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#00897B">
+                <h3>Miraflores</h3>
+                <p class="suc-location">Mérida, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#039BE5">
+                <h3>Mulsay</h3>
+                <p class="suc-location">Mérida, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#546E7A">
+                <h3>Pensiones</h3>
+                <p class="suc-location">Mérida, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="merida" style="--suc-color:#283593">
+                <h3>Brotherhood</h3>
+                <p class="suc-location">Mérida, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <!-- CAMPECHE -->
+            <div class="suc-card fade-in" data-zone="campeche" style="--suc-color:#E53935">
+                <h3>Obregón</h3>
+                <p class="suc-location">Campeche, Campeche</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="campeche" style="--suc-color:#D81B60">
+                <h3>Santa Ana</h3>
+                <p class="suc-location">Campeche, Campeche</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <!-- OTROS -->
+            <div class="suc-card fade-in" data-zone="otros" style="--suc-color:#5E35B1">
+                <h3>Motul</h3>
+                <p class="suc-location">Motul, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="otros" style="--suc-color:#6D4C41">
+                <h3>Progreso</h3>
+                <p class="suc-location">Progreso, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="otros" style="--suc-color:#00695C">
+                <h3>Valladolid 1</h3>
+                <p class="suc-location">Valladolid, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="suc-card fade-in" data-zone="otros" style="--suc-color:#AD1457">
+                <h3>Valladolid 2</h3>
+                <p class="suc-location">Valladolid, Yucatán</p>
+                <div class="suc-card-buttons">
+                    <a href="#" class="suc-btn suc-btn-maps">📍 Ver en Maps</a>
+                    <a href="#" class="suc-btn suc-btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CONTACTO / CTA
+     ══════════════════════════════════════ -->
+<section class="contacto" id="contacto">
+    <div class="container">
+        <h2 class="fade-in">¿Tienes dudas? Estamos para ayudarte</h2>
+        <div class="contacto-buttons fade-in">
+            <a href="https://wa.me/529991234567" target="_blank" class="btn btn-white">💬 Escríbenos por WhatsApp</a>
+            <a href="mailto:contacto@motoselem.com" class="btn btn-outline-white">📧 Envíanos un correo</a>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════ -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="navbar-logo">SELEM</div>
+                <p>Cuenta con nuestra parte</p>
+                <br>
+                <p>Refacciones y accesorios para motocicletas. Más de 20 años de experiencia en el sureste de México.</p>
+            </div>
+            <div>
+                <h4>Enlaces</h4>
+                <div class="footer-links">
+                    <a href="#inicio">Inicio</a>
+                    <a href="#categorias">Categorías</a>
+                    <a href="#sucursales">Sucursales</a>
+                    <a href="#yadea">YADEA</a>
+                    <a href="#contacto">Contacto</a>
+                </div>
+            </div>
+            <div>
+                <h4>Síguenos</h4>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5" fill="#fff"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Selem Motorefacciones &middot; Todos los derechos reservados</p>
+            <p>Hecho con <span>&hearts;</span> en Mérida, Yucatán</p>
+        </div>
+    </div>
+</footer>
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+     ══════════════════════════════════════ -->
+<script>
+(function() {
+    // ── Navbar scroll effect ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ── Mobile menu ──
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('open');
+    });
+
+    // Close mobile menu on link click
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('open');
+        });
+    });
+
+    // ── Smooth scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // ── Fade-in on scroll (Intersection Observer) ──
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ── Sucursales tabs ──
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const sucCards = document.querySelectorAll('.suc-card');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+
+            sucCards.forEach(card => {
+                if (filter === 'todas' || card.dataset.zone === filter) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+    });
+})();
+</script>
+
+</body>
+</html>
