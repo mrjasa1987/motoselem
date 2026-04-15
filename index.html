@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
     <style>
         /* ══════════════════════════════════════
            RESET & BASE
@@ -612,6 +613,7 @@
             <a href="#sucursales">Sucursales</a>
             <a href="#contacto">Contacto</a>
             <a href="#redes">Síguenos</a>
+            <button onclick="abrirPortal()" style="background:#CC0000;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;font-family:'Oswald',sans-serif;letter-spacing:1px;">🔍 Inventario</button>
             <a href="https://api.whatsapp.com/send?phone=5219992313231&text=hola%2C%20quiero%20cotizar%20%F0%9F%98%8E" target="_blank" class="navbar-wa">📱 WhatsApp</a>
         </div>
         <button class="hamburger" id="hamburger" aria-label="Menú">
@@ -634,6 +636,7 @@
             <a href="#sucursales" class="btn btn-red">Ver Sucursales</a>
             <a href="#sucursales" class="btn btn-outline">Encuéntranos</a>
         </div>
+        <button onclick="abrirPortal()" style="margin-top:12px;background:#CC0000;color:#fff;border:2px solid #fff;padding:14px 32px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:1px;display:block;width:100%;max-width:380px;margin:12px auto 0;">🔍 CONSULTAR PRECIOS Y DISPONIBILIDAD</button>
     </div>
     <div class="scroll-indicator">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1079,6 +1082,546 @@
         });
     });
 })();
+</script>
+
+<!-- ══════════════════════════════════════
+     PORTAL DE CLIENTES
+     ══════════════════════════════════════ -->
+<div id="portal-overlay" style="position:fixed;inset:0;z-index:9000;background:#0a0a0a;display:none;overflow-y:auto;">
+    <div id="portal-content"></div>
+</div>
+<div id="portal-carrito-panel" style="position:fixed;right:0;top:0;height:100%;width:380px;max-width:100vw;background:#111;border-left:1px solid #333;z-index:9100;transform:translateX(100%);transition:transform .3s;overflow-y:auto;display:none;">
+    <div id="portal-carrito-content"></div>
+</div>
+<div id="portal-cot-modal" style="display:none;position:fixed;inset:0;z-index:9200;background:#fff;color:#000;overflow-y:auto;"></div>
+
+<style>
+/* Portal styles */
+#portal-overlay input[type="text"],#portal-overlay input[type="password"],#portal-overlay input[type="number"],#portal-overlay input[type="tel"],#portal-overlay select{
+    width:100%;padding:12px 14px;border:1px solid #333;border-radius:6px;background:#1a1a1a;color:#fff;font-size:15px;font-family:'Roboto',sans-serif;outline:none;transition:border-color .3s;
+}
+#portal-overlay input:focus,#portal-overlay select:focus{border-color:#CC0000;}
+.p-btn{display:inline-block;padding:10px 20px;background:#CC0000;color:#fff;border:none;border-radius:6px;font-family:'Oswald',sans-serif;font-size:14px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:background .3s;}
+.p-btn:hover{background:#a00000;}
+.p-btn-outline{background:transparent;border:1px solid #555;color:#aaa;}
+.p-btn-outline:hover{border-color:#CC0000;color:#fff;}
+.p-card{background:#111;border:1px solid #222;border-radius:10px;padding:16px;margin-bottom:12px;animation:pfadeIn .3s ease;}
+@keyframes pfadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.p-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-family:'Roboto Mono',monospace;margin-right:6px;}
+.p-stock-chip{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;margin:3px 3px 3px 0;font-weight:500;}
+.p-stock-ok{background:rgba(74,222,128,0.12);color:#4ade80;}
+.p-stock-low{background:rgba(251,191,36,0.12);color:#fbbf24;}
+.p-stock-none{background:rgba(136,136,136,0.12);color:#888;}
+.p-stock-pref{border:1px solid #4ade80;}
+.p-tab{padding:10px 20px;background:transparent;border:none;color:#888;font-family:'Oswald',sans-serif;font-size:14px;cursor:pointer;border-bottom:2px solid transparent;text-transform:uppercase;letter-spacing:1px;transition:all .3s;}
+.p-tab:hover{color:#fff;}
+.p-tab.active{color:#CC0000;border-bottom-color:#CC0000;}
+@media(max-width:600px){
+    #portal-carrito-panel{width:100vw;}
+    .p-result-row{flex-direction:column!important;}
+    .p-result-right{align-items:flex-start!important;margin-top:12px;}
+}
+@media print{
+    body>*:not(#portal-cot-modal){display:none!important;}
+    #portal-cot-modal{position:static!important;box-shadow:none!important;}
+    .no-print{display:none!important;}
+}
+</style>
+
+<script>
+// ══════════════════════════════════════
+// PORTAL DE CLIENTES — JAVASCRIPT
+// ══════════════════════════════════════
+const SUC_NOMBRES={OBR:'Obregón',SAN:'Santa Ana',CAU:'Caucel',C71:'Centro 71',FCO:'Fco Montejo',KAN:'Kanasín',PAL:'Paloma',MEL:'Melitón',MXN:'México Norte',MIR:'Miraflores',MOT:'Motul',MUL:'Mulsay',PEN:'Pensiones',PRO:'Progreso',VAL:'Valladolid'};
+const PORTAL_USERS=[{usuario:'moto',password:'motoselem123',nombre:'Cliente General',empresa:''}];
+
+let portalInventario=[];
+let portalFuse=null;
+let portalCarrito=[];
+let portalUsuario=null;
+let portalInventarioCargado=false;
+let portalPagina=0;
+let portalResultados=[];
+let portalSucPref=localStorage.getItem('selem_suc_pref')||'';
+let portalTab='buscar';
+let carritoAbierto=false;
+
+// Carga anticipada
+window.addEventListener('load',()=>{
+    fetch('data/inventario.json').then(r=>r.json()).then(data=>{
+        portalInventario=data;
+        portalFuse=new Fuse(data,{keys:[{name:'d',weight:3},{name:'c',weight:2},{name:'m',weight:1}],threshold:0.35,includeScore:true,ignoreLocation:true,minMatchCharLength:2});
+        portalInventarioCargado=true;
+        const btn=document.getElementById('portal-login-btn');
+        if(btn){btn.disabled=false;btn.textContent='Ingresar';}
+    }).catch(e=>console.warn('Inventario no disponible:',e));
+});
+
+function abrirPortal(){
+    const ov=document.getElementById('portal-overlay');
+    ov.style.display='block';
+    document.body.style.overflow='hidden';
+    if(sessionStorage.getItem('selem_portal_auth')){
+        const u=JSON.parse(sessionStorage.getItem('selem_portal_auth'));
+        portalUsuario=u;
+        const perfil=JSON.parse(localStorage.getItem('selem_perfil')||'{}');
+        if(perfil.nombre)portalUsuario.nombre=perfil.nombre;
+        if(perfil.empresa)portalUsuario.empresa=perfil.empresa;
+        if(perfil.telefono)portalUsuario.telefono=perfil.telefono;
+        renderPortalMain();
+    } else {
+        renderPortalLogin();
+    }
+}
+
+function cerrarPortal(){
+    document.getElementById('portal-overlay').style.display='none';
+    document.getElementById('portal-carrito-panel').style.display='none';
+    carritoAbierto=false;
+    if(!document.getElementById('constructionOverlay').classList.contains('hidden')){
+        document.body.style.overflow='hidden';
+    } else {
+        document.body.style.overflow='';
+    }
+}
+
+function renderPortalLogin(){
+    document.getElementById('portal-content').innerHTML=`
+    <div style="max-width:400px;margin:auto;padding:80px 20px;text-align:center;">
+        <img src="images/selemlogo.png" alt="Selem" style="height:70px;margin:0 auto 24px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(0,0,0,.5));">
+        <h1 style="font-family:'Oswald',sans-serif;font-size:1.8rem;color:#fff;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Portal de Clientes</h1>
+        <p style="color:#888;margin-bottom:28px;">Consulta precios y disponibilidad en tiempo real</p>
+        <input type="text" id="portal-usr" placeholder="Usuario" style="margin-bottom:12px;" autocomplete="off">
+        <input type="password" id="portal-pwd" placeholder="Contraseña" style="margin-bottom:12px;" autocomplete="off" onkeydown="if(event.key==='Enter')portalLogin()">
+        <button id="portal-login-btn" class="p-btn" style="width:100%;padding:14px;" onclick="portalLogin()" ${portalInventarioCargado?'':'disabled'}>
+            ${portalInventarioCargado?'Ingresar':'Cargando inventario...'}
+        </button>
+        <div id="portal-login-error" style="color:#CC0000;font-size:13px;margin-top:10px;min-height:20px;"></div>
+        <button onclick="cerrarPortal()" style="margin-top:20px;background:none;border:none;color:#666;cursor:pointer;font-size:13px;">← Regresar a la página</button>
+    </div>`;
+    setTimeout(()=>{const i=document.getElementById('portal-usr');if(i)i.focus();},100);
+}
+
+function portalLogin(){
+    const usr=document.getElementById('portal-usr').value.trim();
+    const pwd=document.getElementById('portal-pwd').value;
+    const found=PORTAL_USERS.find(u=>u.usuario===usr&&u.password===pwd);
+    if(found){
+        portalUsuario={...found};
+        const perfil=JSON.parse(localStorage.getItem('selem_perfil')||'{}');
+        if(perfil.nombre)portalUsuario.nombre=perfil.nombre;
+        if(perfil.empresa)portalUsuario.empresa=perfil.empresa;
+        if(perfil.telefono)portalUsuario.telefono=perfil.telefono;
+        sessionStorage.setItem('selem_portal_auth',JSON.stringify(found));
+        renderPortalMain();
+    } else {
+        document.getElementById('portal-login-error').textContent='Usuario o contraseña incorrectos';
+    }
+}
+
+function portalLogout(){
+    sessionStorage.removeItem('selem_portal_auth');
+    portalUsuario=null;
+    portalCarrito=[];
+    carritoAbierto=false;
+    document.getElementById('portal-carrito-panel').style.display='none';
+    renderPortalLogin();
+}
+
+function renderPortalMain(){
+    portalTab='buscar';
+    const totalProds=portalInventario.length.toLocaleString();
+    const sucOpts=Object.entries(SUC_NOMBRES).map(([k,v])=>`<option value="${k}" ${portalSucPref===k?'selected':''}>${v}</option>`).join('');
+    document.getElementById('portal-content').innerHTML=`
+    <div style="position:sticky;top:0;z-index:100;background:#111;border-bottom:1px solid #333;padding:10px 20px;">
+        <div style="max-width:1200px;margin:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <img src="images/selemlogo.png" alt="Selem" style="height:35px;object-fit:contain;">
+            <span style="color:#666;font-size:13px;display:none;" id="portal-nav-label">Portal de Clientes</span>
+            <div style="flex:1;"></div>
+            <button onclick="toggleCarrito()" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer;position:relative;">
+                🛒<span id="portal-cart-badge" style="position:absolute;top:-6px;right:-10px;background:#CC0000;color:#fff;font-size:10px;padding:1px 5px;border-radius:10px;display:${portalCarrito.length?'block':'none'};">${portalCarrito.length}</span>
+            </button>
+            <span style="color:#aaa;font-size:13px;">${portalUsuario.nombre}</span>
+            <button onclick="portalLogout()" class="p-btn-outline" style="padding:6px 12px;font-size:11px;border-radius:4px;cursor:pointer;background:none;border:1px solid #555;color:#aaa;font-family:'Oswald',sans-serif;">Cerrar sesión</button>
+            <button onclick="cerrarPortal()" style="background:none;border:none;color:#888;font-size:22px;cursor:pointer;margin-left:4px;">✕</button>
+        </div>
+    </div>
+    <div style="max-width:1200px;margin:auto;padding:20px;">
+        <div style="display:flex;gap:0;border-bottom:1px solid #333;margin-bottom:24px;">
+            <button class="p-tab active" onclick="switchTab('buscar',this)">🔍 Buscar</button>
+            <button class="p-tab" onclick="switchTab('cotizaciones',this)">📋 Mis Cotizaciones</button>
+            <button class="p-tab" onclick="switchTab('perfil',this)">👤 Mi Perfil</button>
+        </div>
+        <div id="portal-tab-content">
+            <div>
+                <h2 style="font-family:'Oswald',sans-serif;font-size:28px;color:#fff;margin-bottom:4px;">¿Qué necesitas?</h2>
+                <p style="color:#888;margin-bottom:20px;">Busca entre más de ${totalProds} productos disponibles</p>
+                <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
+                    <input type="text" id="portal-search-input" placeholder="Busca por nombre, código o marca..." style="flex:1;min-width:200px;font-size:16px;padding:14px;" onkeydown="if(event.key==='Enter')portalBuscar()">
+                    <select id="portal-suc-sel" style="min-width:180px;" onchange="portalSucPref=this.value;localStorage.setItem('selem_suc_pref',this.value);if(portalResultados.length)portalBuscar();">
+                        <option value="">Todas las sucursales</option>
+                        ${sucOpts}
+                    </select>
+                    <button class="p-btn" onclick="portalBuscar()" style="padding:14px 28px;">Buscar</button>
+                </div>
+                <div id="portal-resultados"></div>
+            </div>
+        </div>
+    </div>`;
+    setTimeout(()=>{const i=document.getElementById('portal-search-input');if(i)i.focus();},100);
+}
+
+function switchTab(tab,el){
+    portalTab=tab;
+    document.querySelectorAll('.p-tab').forEach(t=>t.classList.remove('active'));
+    if(el)el.classList.add('active');
+    const container=document.getElementById('portal-tab-content');
+    if(tab==='buscar'){
+        renderPortalMain();
+    } else if(tab==='cotizaciones'){
+        renderCotizaciones(container);
+    } else if(tab==='perfil'){
+        renderPerfil(container);
+    }
+}
+
+function renderCotizaciones(container){
+    const cots=JSON.parse(localStorage.getItem('selem_cotizaciones')||'[]');
+    if(!cots.length){
+        container.innerHTML='<div style="text-align:center;padding:60px 20px;color:#666;"><p style="font-size:18px;">📋</p><p>Aún no has generado cotizaciones</p></div>';
+        return;
+    }
+    let html='<h2 style="font-family:\'Oswald\',sans-serif;font-size:24px;color:#fff;margin-bottom:20px;">Mis Cotizaciones</h2>';
+    html+='<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;">';
+    html+='<tr style="border-bottom:1px solid #333;"><th style="text-align:left;padding:10px;color:#888;font-family:\'Oswald\',sans-serif;font-size:13px;">FOLIO</th><th style="text-align:left;padding:10px;color:#888;font-family:\'Oswald\',sans-serif;font-size:13px;">FECHA</th><th style="text-align:center;padding:10px;color:#888;font-family:\'Oswald\',sans-serif;font-size:13px;">PRODUCTOS</th><th style="text-align:right;padding:10px;color:#888;font-family:\'Oswald\',sans-serif;font-size:13px;">TOTAL</th><th style="padding:10px;"></th></tr>';
+    cots.forEach((c,i)=>{
+        html+=`<tr style="border-bottom:1px solid #222;"><td style="padding:10px;font-family:monospace;font-size:13px;color:#aaa;">${c.folio}</td><td style="padding:10px;color:#aaa;font-size:13px;">${c.fecha}</td><td style="padding:10px;text-align:center;color:#aaa;">${c.items.length}</td><td style="padding:10px;text-align:right;color:#4ade80;font-weight:700;">$${c.total.toFixed(2)}</td><td style="padding:10px;"><button class="p-btn" style="padding:6px 14px;font-size:11px;" onclick="verCotGuardada(${i})">Ver</button></td></tr>`;
+    });
+    html+='</table></div>';
+    container.innerHTML=html;
+}
+
+function verCotGuardada(idx){
+    const cots=JSON.parse(localStorage.getItem('selem_cotizaciones')||'[]');
+    const c=cots[idx];
+    if(!c)return;
+    portalCarrito=c.items.map(it=>({...it}));
+    mostrarCotizacionModal();
+}
+
+function renderPerfil(container){
+    const perfil=JSON.parse(localStorage.getItem('selem_perfil')||'{}');
+    container.innerHTML=`
+    <h2 style="font-family:'Oswald',sans-serif;font-size:24px;color:#fff;margin-bottom:20px;">Mi Perfil</h2>
+    <div style="max-width:500px;">
+        <label style="display:block;color:#888;font-size:12px;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;font-family:'Oswald',sans-serif;">Nombre completo</label>
+        <input type="text" id="perfil-nombre" value="${perfil.nombre||portalUsuario.nombre||''}" style="margin-bottom:16px;">
+        <label style="display:block;color:#888;font-size:12px;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;font-family:'Oswald',sans-serif;">Empresa</label>
+        <input type="text" id="perfil-empresa" value="${perfil.empresa||portalUsuario.empresa||''}" style="margin-bottom:16px;">
+        <label style="display:block;color:#888;font-size:12px;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;font-family:'Oswald',sans-serif;">Teléfono</label>
+        <input type="tel" id="perfil-tel" value="${perfil.telefono||''}" style="margin-bottom:24px;">
+        <button class="p-btn" onclick="guardarPerfil()" style="padding:12px 32px;">Guardar</button>
+        <button class="p-btn-outline" onclick="portalLogout()" style="margin-left:10px;padding:12px 32px;cursor:pointer;background:none;border:1px solid #CC0000;color:#CC0000;border-radius:6px;font-family:'Oswald',sans-serif;font-size:14px;">Cerrar sesión</button>
+        <div id="perfil-msg" style="margin-top:12px;color:#4ade80;font-size:13px;min-height:20px;"></div>
+    </div>`;
+}
+
+function guardarPerfil(){
+    const perfil={
+        nombre:document.getElementById('perfil-nombre').value.trim(),
+        empresa:document.getElementById('perfil-empresa').value.trim(),
+        telefono:document.getElementById('perfil-tel').value.trim()
+    };
+    localStorage.setItem('selem_perfil',JSON.stringify(perfil));
+    portalUsuario.nombre=perfil.nombre||portalUsuario.nombre;
+    portalUsuario.empresa=perfil.empresa;
+    portalUsuario.telefono=perfil.telefono;
+    document.getElementById('perfil-msg').textContent='Perfil guardado correctamente';
+    setTimeout(()=>{const m=document.getElementById('perfil-msg');if(m)m.textContent='';},3000);
+}
+
+// ── BÚSQUEDA ──
+function portalBuscar(){
+    const q=document.getElementById('portal-search-input').value.trim();
+    if(q.length<2){document.getElementById('portal-resultados').innerHTML='<p style="color:#888;text-align:center;padding:20px;">Escribe al menos 2 caracteres para buscar</p>';return;}
+    const suc=document.getElementById('portal-suc-sel').value;
+    portalSucPref=suc;
+
+    // Token-based search
+    const tokens=q.toLowerCase().split(/\s+/).filter(t=>t.length>=2);
+    let tokenResults=[];
+    if(tokens.length>1){
+        tokenResults=portalInventario.filter(p=>{
+            const haystack=(p.d+' '+p.m+' '+p.c).toLowerCase();
+            return tokens.every(t=>haystack.includes(t));
+        });
+    }
+
+    // Fuse.js search
+    const fuseResults=portalFuse?portalFuse.search(q,{limit:200}).map(r=>r.item):[];
+
+    // Combine unique
+    const seen=new Set();
+    const combined=[];
+    [...tokenResults,...fuseResults].forEach(p=>{
+        const key=p.f+'_'+p.c;
+        if(!seen.has(key)){seen.add(key);combined.push(p);}
+    });
+
+    // Filter by sucursal
+    if(suc){
+        combined.sort((a,b)=>{
+            const aHas=(a.s[suc]||0)>0?0:1;
+            const bHas=(b.s[suc]||0)>0?0:1;
+            return aHas-bHas;
+        });
+        portalResultados=combined.filter(p=>{
+            const total=Object.values(p.s).reduce((a,b)=>a+b,0);
+            return total>0;
+        });
+    } else {
+        portalResultados=combined;
+    }
+
+    portalPagina=0;
+    renderResultados(q);
+}
+
+function renderResultados(query){
+    const container=document.getElementById('portal-resultados');
+    const perPage=20;
+    const start=0;
+    const end=(portalPagina+1)*perPage;
+    const visible=portalResultados.slice(start,end);
+
+    if(!portalResultados.length){
+        container.innerHTML=`<p style="color:#888;text-align:center;padding:40px;">No se encontraron productos para "<strong>${query||''}</strong>"</p>`;
+        return;
+    }
+
+    let html=`<p style="color:#888;margin-bottom:16px;">${portalResultados.length.toLocaleString()} productos encontrados${query?' para "<strong>'+query+'</strong>"':''}</p>`;
+
+    visible.forEach(p=>{
+        const stockChips=renderStockChips(p.s);
+        html+=`
+        <div class="p-card">
+            <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;" class="p-result-row">
+                <div style="flex:1;min-width:200px;">
+                    <div style="margin-bottom:6px;">
+                        <span class="p-badge" style="background:#1a1a1a;color:#888;">F:${p.f}</span>
+                        <span class="p-badge" style="background:#1a1a1a;color:#888;">${p.c}</span>
+                        <span class="p-badge" style="background:#222;color:#aaa;">${p.m}</span>
+                    </div>
+                    <div style="font-size:15px;font-weight:600;color:#fff;margin:8px 0;line-height:1.3;">${p.d}</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:0;">${stockChips}</div>
+                </div>
+                <div style="text-align:right;min-width:130px;display:flex;flex-direction:column;align-items:flex-end;" class="p-result-right">
+                    <div style="font-size:24px;color:#4ade80;font-weight:700;font-family:'Oswald',sans-serif;">$${p.p.toFixed(2)}</div>
+                    <div style="font-size:10px;color:#666;margin-bottom:10px;">precio público c/IVA</div>
+                    <button class="p-btn" style="padding:8px 16px;font-size:12px;width:100%;" onclick='agregarAlCarrito(${JSON.stringify(p).replace(/'/g,"&#39;")})'>+ Cotizar</button>
+                </div>
+            </div>
+        </div>`;
+    });
+
+    if(end<portalResultados.length){
+        html+=`<div style="text-align:center;padding:20px;"><button class="p-btn" onclick="portalPagina++;renderResultados('${(query||'').replace(/'/g,"\\'")}')">Ver 20 más (${portalResultados.length-end} restantes)</button></div>`;
+    }
+
+    container.innerHTML=html;
+}
+
+function renderStockChips(stock){
+    const keys=Object.keys(stock);
+    if(!keys.length)return'<span class="p-stock-chip p-stock-none">Sin stock disponible</span>';
+    // Preferred first
+    const sorted=[...keys].sort((a,b)=>{
+        if(a===portalSucPref)return -1;
+        if(b===portalSucPref)return 1;
+        return 0;
+    });
+    return sorted.map(k=>{
+        const v=stock[k];
+        const cls=v>=5?'p-stock-ok':'p-stock-low';
+        const pref=k===portalSucPref?' p-stock-pref':'';
+        return`<span class="p-stock-chip ${cls}${pref}">${SUC_NOMBRES[k]||k}: ${v}</span>`;
+    }).join('');
+}
+
+// ── CARRITO ──
+function agregarAlCarrito(producto){
+    const exists=portalCarrito.find(x=>x.c===producto.c&&x.f===producto.f);
+    if(exists){exists.qty++;} else {portalCarrito.push({...producto,qty:1});}
+    updateCartBadge();
+    renderCarrito();
+    if(!carritoAbierto)toggleCarrito();
+}
+
+function toggleCarrito(){
+    const panel=document.getElementById('portal-carrito-panel');
+    carritoAbierto=!carritoAbierto;
+    if(carritoAbierto){
+        panel.style.display='block';
+        setTimeout(()=>panel.style.transform='translateX(0)',10);
+        renderCarrito();
+    } else {
+        panel.style.transform='translateX(100%)';
+        setTimeout(()=>panel.style.display='none',300);
+    }
+}
+
+function updateCartBadge(){
+    const badge=document.getElementById('portal-cart-badge');
+    if(badge){
+        badge.textContent=portalCarrito.length;
+        badge.style.display=portalCarrito.length?'block':'none';
+    }
+}
+
+function renderCarrito(){
+    const container=document.getElementById('portal-carrito-content');
+    let html=`<div style="padding:16px;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center;">
+        <h3 style="font-family:'Oswald',sans-serif;font-size:18px;color:#fff;">🛒 Cotización</h3>
+        <button onclick="toggleCarrito()" style="background:none;border:none;color:#888;font-size:20px;cursor:pointer;">✕</button>
+    </div>`;
+
+    if(!portalCarrito.length){
+        html+='<div style="padding:40px 20px;text-align:center;color:#666;"><p>Tu cotización está vacía</p></div>';
+    } else {
+        html+='<div style="padding:12px;">';
+        portalCarrito.forEach((item,i)=>{
+            html+=`
+            <div style="background:#1a1a1a;border-radius:8px;padding:12px;margin-bottom:8px;">
+                <div style="display:flex;justify-content:space-between;align-items:start;">
+                    <div style="flex:1;font-size:13px;color:#fff;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${item.d}</div>
+                    <button onclick="eliminarDelCarrito(${i})" style="background:none;border:none;color:#666;cursor:pointer;font-size:16px;margin-left:8px;">🗑</button>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <label style="color:#888;font-size:11px;">Cant:</label>
+                        <input type="number" min="1" value="${item.qty}" onchange="cambiarCantidad(${i},this.value)" style="width:60px;padding:6px;font-size:13px;text-align:center;">
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="color:#888;font-size:11px;">$${item.p.toFixed(2)} c/u</div>
+                        <div style="color:#4ade80;font-weight:700;font-size:15px;">$${(item.p*item.qty).toFixed(2)}</div>
+                    </div>
+                </div>
+            </div>`;
+        });
+        html+='</div>';
+
+        const totalConIVA=portalCarrito.reduce((s,it)=>s+it.p*it.qty,0);
+        const subtotalSinIVA=totalConIVA/1.16;
+        const iva=totalConIVA-subtotalSinIVA;
+
+        html+=`
+        <div style="border-top:1px solid #333;padding:16px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#888;font-size:13px;">Total items:</span><span style="color:#aaa;">${portalCarrito.reduce((s,it)=>s+it.qty,0)} productos</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#4ade80;font-size:18px;font-weight:700;font-family:'Oswald',sans-serif;">Total c/IVA:</span><span style="color:#4ade80;font-size:18px;font-weight:700;font-family:'Oswald',sans-serif;">$${totalConIVA.toFixed(2)}</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#666;font-size:12px;">IVA incluido (16%):</span><span style="color:#666;font-size:12px;">$${iva.toFixed(2)}</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:16px;"><span style="color:#666;font-size:12px;">Subtotal sin IVA:</span><span style="color:#666;font-size:12px;">$${subtotalSinIVA.toFixed(2)}</span></div>
+            <button class="p-btn" style="width:100%;padding:14px;" onclick="generarCotizacion()">📄 Generar Cotización</button>
+            <button class="p-btn-outline" style="width:100%;padding:10px;margin-top:8px;cursor:pointer;background:none;border:1px solid #555;color:#aaa;border-radius:6px;font-family:'Oswald',sans-serif;font-size:13px;" onclick="portalCarrito=[];updateCartBadge();renderCarrito();">Vaciar</button>
+        </div>`;
+    }
+
+    container.innerHTML=html;
+}
+
+function eliminarDelCarrito(idx){
+    portalCarrito.splice(idx,1);
+    updateCartBadge();
+    renderCarrito();
+}
+
+function cambiarCantidad(idx,val){
+    const n=parseInt(val)||1;
+    portalCarrito[idx].qty=Math.max(1,n);
+    renderCarrito();
+}
+
+// ── COTIZACIÓN ──
+function generarCotizacion(){
+    const modal=document.getElementById('portal-cot-modal');
+    modal.style.display='block';
+
+    const now=new Date();
+    const folio='COT-'+Date.now();
+    const fechaEmision=now.toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+now.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+    const validaHasta=new Date(now.getTime()+3*24*60*60*1000).toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric'});
+
+    const totalConIVA=portalCarrito.reduce((s,it)=>s+it.p*it.qty,0);
+    const subtotalSinIVA=totalConIVA/1.16;
+    const iva=totalConIVA-subtotalSinIVA;
+
+    let rows='';
+    portalCarrito.forEach((it,i)=>{
+        const bg=i%2===0?'#f9f9f9':'#fff';
+        rows+=`<tr style="background:${bg};"><td style="padding:8px;border:1px solid #ddd;text-align:center;">${i+1}</td><td style="padding:8px;border:1px solid #ddd;font-family:monospace;font-size:12px;">${it.c}</td><td style="padding:8px;border:1px solid #ddd;font-size:13px;">${it.d}</td><td style="padding:8px;border:1px solid #ddd;text-align:right;">$${it.p.toFixed(2)}</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">${it.qty}</td><td style="padding:8px;border:1px solid #ddd;text-align:right;font-weight:600;">$${(it.p*it.qty).toFixed(2)}</td></tr>`;
+    });
+
+    modal.innerHTML=`
+    <div style="max-width:900px;margin:auto;padding:40px 30px;">
+        <div class="no-print" style="display:flex;gap:10px;margin-bottom:20px;">
+            <button onclick="window.print()" style="padding:10px 24px;background:#CC0000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:14px;">🖨️ Imprimir</button>
+            <button onclick="document.getElementById('portal-cot-modal').style.display='none'" style="padding:10px 24px;background:#eee;color:#333;border:none;border-radius:6px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:14px;">Cerrar</button>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:30px;flex-wrap:wrap;gap:20px;">
+            <div>
+                <img src="images/selemlogo.png" alt="Selem" style="height:50px;margin-bottom:8px;">
+                <h1 style="font-family:'Oswald',sans-serif;font-size:22px;color:#CC0000;text-transform:uppercase;">Cotización de Productos</h1>
+            </div>
+            <div style="text-align:right;font-size:13px;color:#555;">
+                <div><strong>Folio:</strong> ${folio}</div>
+                <div><strong>Emisión:</strong> ${fechaEmision}</div>
+                <div><strong>Válida hasta:</strong> ${validaHasta}</div>
+            </div>
+        </div>
+        <div style="background:#f5f5f5;padding:14px;border-radius:6px;margin-bottom:24px;font-size:13px;color:#333;">
+            <div><strong>Cliente:</strong> ${portalUsuario.nombre||'—'}</div>
+            ${portalUsuario.empresa?'<div><strong>Empresa:</strong> '+portalUsuario.empresa+'</div>':''}
+            ${portalUsuario.telefono?'<div><strong>Teléfono:</strong> '+portalUsuario.telefono+'</div>':''}
+        </div>
+        <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
+            <tr style="background:#CC0000;color:#fff;">
+                <th style="padding:10px;border:1px solid #b00;text-align:center;font-family:'Oswald',sans-serif;font-size:13px;">#</th>
+                <th style="padding:10px;border:1px solid #b00;text-align:left;font-family:'Oswald',sans-serif;font-size:13px;">CÓDIGO</th>
+                <th style="padding:10px;border:1px solid #b00;text-align:left;font-family:'Oswald',sans-serif;font-size:13px;">DESCRIPCIÓN</th>
+                <th style="padding:10px;border:1px solid #b00;text-align:right;font-family:'Oswald',sans-serif;font-size:13px;">P. UNIT.</th>
+                <th style="padding:10px;border:1px solid #b00;text-align:center;font-family:'Oswald',sans-serif;font-size:13px;">CANT.</th>
+                <th style="padding:10px;border:1px solid #b00;text-align:right;font-family:'Oswald',sans-serif;font-size:13px;">SUBTOTAL</th>
+            </tr>
+            ${rows}
+        </table>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:24px;">
+            <div style="min-width:250px;">
+                <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:20px;font-weight:700;border-bottom:2px solid #CC0000;"><span>Total c/IVA:</span><span>$${totalConIVA.toFixed(2)}</span></div>
+                <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:#666;"><span>IVA incluido 16%:</span><span>$${iva.toFixed(2)}</span></div>
+                <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:#666;"><span>Subtotal sin IVA:</span><span>$${subtotalSinIVA.toFixed(2)}</span></div>
+            </div>
+        </div>
+        <div style="border:2px solid #CC0000;border-radius:8px;padding:16px;margin-bottom:30px;font-size:12px;color:#555;line-height:1.8;">
+            <div>⚠️ Las existencias mostradas son aproximadas y pueden cambiar sin previo aviso.</div>
+            <div>⚠️ Los precios pueden ser modificados sin previo aviso.</div>
+            <div>⚠️ Esta cotización no garantiza disponibilidad ni precio al momento de la compra.</div>
+            <div>✓ Te recomendamos confirmar disponibilidad con tu sucursal antes de hacer tu pedido.</div>
+        </div>
+        <div style="text-align:center;font-size:12px;color:#888;border-top:1px solid #ddd;padding-top:16px;">
+            <div>www.motoselem.com | WhatsApp: 9992313231</div>
+            <div style="font-weight:600;">Selem Motorefacciones — Cuenta con nuestra parte</div>
+        </div>
+    </div>`;
+
+    // Save to localStorage
+    const cots=JSON.parse(localStorage.getItem('selem_cotizaciones')||'[]');
+    cots.unshift({folio,fecha:fechaEmision,items:portalCarrito.map(it=>({c:it.c,d:it.d,p:it.p,qty:it.qty})),total:totalConIVA});
+    if(cots.length>10)cots.length=10;
+    localStorage.setItem('selem_cotizaciones',JSON.stringify(cots));
+}
+
+function mostrarCotizacionModal(){
+    generarCotizacion();
+}
 </script>
 
 </body>
