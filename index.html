@@ -1280,6 +1280,7 @@ function renderPortalMain(){
     document.getElementById('portal-content').innerHTML=`
     <div class="p-portal-navbar" style="position:sticky;top:0;z-index:100;background:var(--pt-navbar);border-bottom:1px solid var(--pt-border);padding:10px 20px;">
         <div style="max-width:1200px;margin:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <button onclick="cerrarPortal()" class="p-btn-outline" style="padding:5px 12px;font-size:12px;border-radius:4px;cursor:pointer;background:none;font-family:'Oswald',sans-serif;white-space:nowrap;">← Inicio</button>
             <img src="images/selemlogo.png" alt="Selem" style="height:35px;object-fit:contain;">
             <span style="color:var(--pt-muted);font-size:13px;display:none;" id="portal-nav-label">Portal de Clientes</span>
             <div style="flex:1;"></div>
