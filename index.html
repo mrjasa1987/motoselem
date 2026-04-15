@@ -1209,17 +1209,13 @@ function abrirPortal(){
     ov.style.display='block';
     document.body.style.overflow='hidden';
     aplicarTema(portalTema);
-    if(sessionStorage.getItem('selem_portal_auth')){
-        const u=JSON.parse(sessionStorage.getItem('selem_portal_auth'));
-        portalUsuario=u;
-        const perfil=JSON.parse(localStorage.getItem('selem_perfil')||'{}');
-        if(perfil.nombre)portalUsuario.nombre=perfil.nombre;
-        if(perfil.empresa)portalUsuario.empresa=perfil.empresa;
-        if(perfil.telefono)portalUsuario.telefono=perfil.telefono;
-        renderPortalMain();
-    } else {
-        renderPortalLogin();
-    }
+    // Acceso directo sin login
+    portalUsuario={nombre:'Cliente',empresa:''};
+    const perfil=JSON.parse(localStorage.getItem('selem_perfil')||'{}');
+    if(perfil.nombre)portalUsuario.nombre=perfil.nombre;
+    if(perfil.empresa)portalUsuario.empresa=perfil.empresa;
+    if(perfil.telefono)portalUsuario.telefono=perfil.telefono;
+    renderPortalMain();
 }
 
 function cerrarPortal(){
