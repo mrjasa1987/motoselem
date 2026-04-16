@@ -194,6 +194,35 @@ img { max-width: 100%; display: block; }
 .search-tags { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .search-tag { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09); border-radius: 20px; padding: 6px 16px; font-size: 0.75rem; color: rgba(255,255,255,0.35); cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
 .search-tag:hover { border-color: rgba(204,0,0,0.4); color: #ff9999; }
+@media (max-width: 768px) {
+    .search-big {
+        flex-direction: column;
+        padding: 14px 16px;
+        gap: 12px;
+        align-items: stretch;
+    }
+    .search-big-placeholder {
+        padding: 0;
+        font-size: 0.85rem;
+        text-align: center;
+    }
+    .search-big-btn {
+        width: 100%;
+        text-align: center;
+        padding: 14px;
+        border-radius: 7px;
+    }
+    .buscador-inner {
+        padding: 0 4px;
+    }
+    .search-tags {
+        gap: 6px;
+    }
+    .search-tag {
+        font-size: 0.7rem;
+        padding: 5px 12px;
+    }
+}
 
 /* SUCURSALES */
 .section-sucursales { background: #fff; padding: 64px 0; border-top: 1px solid #efefef; }
