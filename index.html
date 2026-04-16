@@ -247,73 +247,236 @@
            ══════════════════════════════════════ */
         .hero {
             position: relative;
-            height: auto;
             min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .hero-watermark {
+            position: absolute;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
+            pointer-events: none;
+            z-index: 0;
             overflow: hidden;
         }
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            background-image: url('images/hero_selem.jpg');
-            background-size: auto 100%;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-color: #0a0a0a;
+        .hero-watermark span {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(120px, 22vw, 300px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.06);
+            white-space: nowrap;
+            user-select: none;
+            line-height: 1;
         }
-        .hero-bg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-        }
-        .hero-content {
+        .hero-inner {
             position: relative;
             z-index: 2;
-            padding: 0 20px;
-            max-width: 800px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 0;
         }
-        .hero-title {
-            font-size: clamp(2.2rem, 6vw, 4.5rem);
-            text-transform: uppercase;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            letter-spacing: 3px;
-            text-shadow: 2px 2px 30px rgba(204, 0, 0, 0.4);
+        .hero-copy {
+            position: relative;
+            z-index: 3;
         }
-        .hero-subtitle {
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            color: #ccc;
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-        .hero-buttons {
+        .hero-brand {
             display: flex;
-            gap: 16px;
-            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+        .hero-brand img {
+            height: 52px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 6px rgba(204,0,0,0.3));
+        }
+        .hero-brand-divider {
+            width: 1px;
+            height: 36px;
+            background: rgba(255,255,255,0.25);
+        }
+        .hero-brand-tagline {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #aaa;
+            line-height: 1.3;
+        }
+        .hero-headline {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2.4rem, 5.5vw, 5rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 1.0;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .hero-headline span {
+            display: block;
+            color: #CC0000;
+        }
+        .hero-headline-sub {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 28px;
+        }
+        .hero-desc {
+            font-size: 0.95rem;
+            color: #888;
+            font-weight: 300;
+            line-height: 1.7;
+            max-width: 380px;
+            margin-bottom: 40px;
+        }
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
             flex-wrap: wrap;
         }
+        .hero-cta-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 34px;
+            background: #CC0000;
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .hero-cta-primary:hover {
+            background: #a00000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(204,0,0,0.45);
+        }
+        .hero-cta-secondary {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #aaa;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+        .hero-cta-secondary:hover { color: #fff; }
+        .hero-cta-secondary::before {
+            content: '';
+            display: inline-block;
+            width: 28px;
+            height: 1px;
+            background: currentColor;
+            transition: width 0.3s;
+        }
+        .hero-cta-secondary:hover::before { width: 40px; }
+        .hero-moto {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-moto img {
+            width: 115%;
+            max-width: none;
+            margin-left: -8%;
+            filter: drop-shadow(-20px 20px 40px rgba(0,0,0,0.8));
+            animation: moto-float 5s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+        @keyframes moto-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-14px); }
+        }
+        .hero-copy::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #CC0000;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(204,0,0,0.12);
+            border: 1px solid rgba(204,0,0,0.3);
+            border-radius: 30px;
+            padding: 7px 18px;
+            font-size: 0.8rem;
+            color: #ff6666;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 24px;
+        }
+        .hero-badge span { color: #fff; font-weight: 600; }
         .scroll-indicator {
             position: absolute;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 2;
+            z-index: 10;
             animation: bounce 2s infinite;
         }
         .scroll-indicator svg {
             width: 30px;
             height: 30px;
             stroke: #fff;
-            opacity: 0.6;
+            opacity: 0.3;
         }
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
             40% { transform: translateX(-50%) translateY(-10px); }
             60% { transform: translateX(-50%) translateY(-5px); }
+        }
+        @media (max-width: 900px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+                padding: 120px 30px 60px;
+                text-align: center;
+            }
+            .hero-brand { justify-content: center; }
+            .hero-desc { margin: 0 auto 36px; }
+            .hero-copy::before { left: 50%; transform: translateX(-50%); }
+            .hero-cta-group { justify-content: center; }
+            .hero-moto { margin-top: -20px; order: -1; }
+            .hero-moto img { width: 85%; margin-left: 0; max-width: 420px; }
+            .hero-headline { font-size: clamp(2.2rem, 8vw, 3.5rem); }
+        }
+        @media (max-width: 500px) {
+            .hero-moto img { width: 100%; }
+            .hero-badge { font-size: 0.72rem; }
         }
 
         /* ══════════════════════════════════════
@@ -628,12 +791,50 @@
      HERO
      ══════════════════════════════════════ -->
 <section class="hero" id="inicio">
-    <div class="hero-bg"></div>
-    <div class="hero-content">
-        <h1 class="hero-title">Cuenta con nuestra parte</h1>
-        <p class="hero-subtitle">Refacciones y accesorios para motocicletas · 17 sucursales en Yucatán y Campeche</p>
-        <button onclick="abrirPortal()" style="display:block;margin:30px auto 0;padding:20px 50px;font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ffffff;background:#CC0000;border:3px solid #ffffff;border-radius:8px;cursor:pointer;width:90%;max-width:520px;">🔍 CONSULTAR PRECIOS Y DISPONIBILIDAD</button>
+
+    <div class="hero-watermark">
+        <span>SELEM</span>
     </div>
+
+    <div class="hero-inner">
+
+        <div class="hero-copy">
+            <div class="hero-brand">
+                <img src="images/selemlogo.png" alt="Selem Motorefacciones">
+                <div class="hero-brand-divider"></div>
+                <div class="hero-brand-tagline">Refacciones &amp;<br>Accesorios</div>
+            </div>
+
+            <div class="hero-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>17</span> sucursales en Yucatán y Campeche
+            </div>
+
+            <h1 class="hero-headline">
+                Cuenta con
+                <span>nuestra parte</span>
+            </h1>
+            <p class="hero-headline-sub">Más de 20 años contigo</p>
+
+            <p class="hero-desc">
+                La refaccionaria de confianza en el sureste de México. Mayoreo y menudeo, con el mejor surtido de refacciones y accesorios para tu moto.
+            </p>
+
+            <div class="hero-cta-group">
+                <button class="hero-cta-primary" onclick="abrirPortal()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    Consultar precios
+                </button>
+                <a href="#sucursales" class="hero-cta-secondary">Ver sucursales</a>
+            </div>
+        </div>
+
+        <div class="hero-moto">
+            <img src="images/moto.png" alt="Motocicleta Selem">
+        </div>
+
+    </div>
+
     <div class="scroll-indicator">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
@@ -660,7 +861,7 @@
                 <p>Estados</p>
             </div>
             <div class="stat-item fade-in">
-                <h3>1000+</h3>
+                <h3>20K+</h3>
                 <p>Productos disponibles</p>
             </div>
         </div>
@@ -722,7 +923,7 @@
             <button class="tab-btn active" data-filter="todas">Todas</button>
             <button class="tab-btn" data-filter="merida">Mérida</button>
             <button class="tab-btn" data-filter="campeche">Campeche</button>
-            <button class="tab-btn" data-filter="otros">Otros</button>
+            <button class="tab-btn" data-filter="otros">Yucatán</button>
         </div>
 
         <div class="sucursales-grid" id="sucursalesGrid">
