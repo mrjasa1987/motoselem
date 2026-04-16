@@ -205,14 +205,15 @@ img { max-width: 100%; display: block; }
 @media (max-width: 768px) {
     .search-big {
         flex-direction: column;
-        padding: 14px 16px;
-        gap: 10px;
+        padding: 16px;
+        gap: 12px;
         align-items: stretch;
+        cursor: pointer;
     }
     .search-big svg { display: none; }
     .search-big-placeholder {
-        padding: 4px 0;
-        font-size: 0.85rem;
+        padding: 0;
+        font-size: 0.88rem;
         text-align: center;
         color: rgba(255,255,255,0.3);
     }
@@ -222,7 +223,11 @@ img { max-width: 100%; display: block; }
         padding: 14px;
         border-radius: 7px;
         font-size: 0.9rem;
+        letter-spacing: 1.5px;
     }
+    .search-tags { gap: 6px; }
+    .search-tag { font-size: 0.7rem; padding: 5px 12px; }
+    .buscador-title { font-size: 1.6rem; }
 }
 
 /* SUCURSALES */
@@ -487,7 +492,7 @@ img { max-width: 100%; display: block; }
             <div class="search-big" onclick="abrirPortal()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 <div class="search-big-placeholder">Código de parte, descripción, marca, modelo…</div>
-                <button class="search-big-btn">Buscar en inventario</button>
+                <button class="search-big-btn" onclick="abrirPortal()">Buscar</button>
             </div>
             <div class="search-tags">
                 <div class="search-tag" onclick="abrirPortal()">Italika 150</div>
