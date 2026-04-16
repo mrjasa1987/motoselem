@@ -148,18 +148,42 @@ img { max-width: 100%; display: block; }
 .tabs-suc { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
 .tab-suc { font-family: 'Oswald', sans-serif; background: #f5f5f5; color: #666; border: 1px solid #e0e0e0; padding: 8px 22px; border-radius: 4px; cursor: pointer; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
 .tab-suc.active { background: #CC0000; color: #fff; border-color: #CC0000; }
-.suc-grid-clean { display: grid; grid-template-columns: repeat(4,1fr); border: 1px solid #efefef; border-radius: 12px; overflow: hidden; }
-.suc-card-clean { padding: 22px 24px; border-right: 1px solid #efefef; cursor: pointer; background: #fff; transition: background 0.15s; }
-.suc-card-clean:hover { background: #fafafa; }
-.suc-dot { width: 7px; height: 7px; border-radius: 50%; background: #CC0000; margin-bottom: 12px; }
-.suc-dot-soon { background: #FFC107; }
-.suc-nombre { font-family: 'Oswald', sans-serif; font-size: 1rem; font-weight: 600; color: #111; margin-bottom: 3px; }
-.suc-nombre-soon { color: #aaa; }
-.suc-ciudad { font-size: 0.72rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
-.suc-ciudad-soon { color: #FFC107; }
-.suc-wa { font-size: 0.72rem; color: #25D366; margin-top: 10px; display: block; }
-.suc-wa:hover { text-decoration: underline; }
-@media (max-width: 768px) { .suc-grid-clean { grid-template-columns: repeat(2,1fr); } }
+.suc-grid-clean { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.suc-card-clean {
+    position: relative; border-radius: 10px; overflow: hidden;
+    height: 200px; cursor: pointer;
+    border-bottom: 3px solid #CC0000;
+    transition: all 0.3s ease;
+}
+.suc-card-clean:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.18); }
+.suc-card-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    background-color: #1a1a1a;
+    transition: transform 0.4s ease;
+}
+.suc-card-clean:hover .suc-card-bg { transform: scale(1.05); }
+.suc-card-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1) 100%);
+}
+.suc-card-body {
+    position: relative; z-index: 1; height: 100%;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 16px 18px;
+}
+.suc-nombre { font-family: 'Oswald', sans-serif; font-size: 1.05rem; font-weight: 600; color: #fff; margin-bottom: 2px; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+.suc-ciudad { font-size: 0.7rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.suc-card-btns { display: flex; gap: 6px; }
+.suc-btn { flex: 1; text-align: center; padding: 7px 10px; border-radius: 4px; font-family: 'Oswald', sans-serif; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border: none; transition: all 0.2s; }
+.suc-btn-maps { background: rgba(255,255,255,0.15); color: #fff; backdrop-filter: blur(4px); }
+.suc-btn-maps:hover { background: rgba(255,255,255,0.25); }
+.suc-btn-wa { background: #25D366; color: #fff; }
+.suc-btn-wa:hover { background: #1da851; }
+.suc-card-soon { background: #1a1a1a; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; border-bottom-color: #FFC107; }
+.suc-badge-soon { background: rgba(255,193,7,0.15); color: #FFC107; font-family: 'Oswald', sans-serif; font-size: 0.7rem; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; }
+.suc-nombre-soon { font-family: 'Oswald', sans-serif; font-size: 1rem; color: rgba(255,255,255,0.4); }
+@media (max-width: 768px) { .suc-grid-clean { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); } }
 
 /* AUDIENCIAS */
 .section-audiencias { display: grid; grid-template-columns: 1fr 1fr; }
@@ -346,22 +370,177 @@ img { max-width: 100%; display: block; }
             <button class="tab-suc" data-filter="otros">Yucatán</button>
         </div>
         <div class="suc-grid-clean" id="sucursalesGrid">
-            <div class="suc-card-clean" data-zone="merida"><div class="suc-dot"></div><div class="suc-nombre">Caucel</div><div class="suc-ciudad">Mérida, Yucatán</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/1h61SXRNt9XtehLYA" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="merida"><div class="suc-dot"></div><div class="suc-nombre">Centro 71</div><div class="suc-ciudad">Mérida, Yucatán</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/tw1nCg6c6bCoijar6" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="merida"><div class="suc-dot"></div><div class="suc-nombre">Paloma</div><div class="suc-ciudad">Mérida, Yucatán</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/gB1TdRCHgg8qhSnd7" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="merida"><div class="suc-dot"></div><div class="suc-nombre">Fco. Montejo</div><div class="suc-ciudad">Mérida, Yucatán</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/JcboDqu8DFU5pGss5" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="merida"><div class="suc-dot"></div><div class="suc-nombre">Mulsay</div><div class="suc-ciudad">Mérida, Yucatán</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/cU4Q8kk9FdZLyc7DA" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="merida"><div class="suc-dot"></div><div class="suc-nombre">México Norte</div><div class="suc-ciudad">Mérida, Yucatán</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/rvd4kzVYjUCtLPQWA" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="merida"><div class="suc-dot"></div><div class="suc-nombre">Miraflores</div><div class="suc-ciudad">Mérida, Yucatán</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/tZDM8ENxVXbEGXAE9" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="merida"><div class="suc-dot"></div><div class="suc-nombre">Melitón</div><div class="suc-ciudad">Mérida, Yucatán</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/a8giJNkruK5Lks5S8" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="merida"><div class="suc-dot"></div><div class="suc-nombre">Kanasín</div><div class="suc-ciudad">Mérida, Yucatán</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/hWdtCZWuGjEdrYSn8" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="campeche"><div class="suc-dot"></div><div class="suc-nombre">Santa Ana</div><div class="suc-ciudad">Campeche, Camp.</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/aT6VeqMKRCgAks1X6" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="campeche"><div class="suc-dot"></div><div class="suc-nombre">Obregón</div><div class="suc-ciudad">Campeche, Camp.</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/RX3uC5NZPqEy6sgE8" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="campeche"><div class="suc-dot"></div><div class="suc-nombre">Brotherhood</div><div class="suc-ciudad">Campeche, Camp.</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/M6kemJ2aP5v2sgveA" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="otros"><div class="suc-dot"></div><div class="suc-nombre">Valladolid</div><div class="suc-ciudad">Valladolid, Yuc.</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/Bcwc9WUcaEUTksEE8" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="otros"><div class="suc-dot"></div><div class="suc-nombre">Progreso</div><div class="suc-ciudad">Progreso, Yuc.</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/ekyEP6RLyZBv6F8P9" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="otros"><div class="suc-dot"></div><div class="suc-nombre">Motul</div><div class="suc-ciudad">Motul, Yuc.</div><div style="display:flex;gap:8px;margin-top:10px;"><a href="https://maps.app.goo.gl/3wWUVsse3uSG4Ctx5" target="_blank" class="suc-wa" style="color:#888;">Maps →</a><a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-wa">WhatsApp →</a></div></div>
-            <div class="suc-card-clean" data-zone="todas"><div class="suc-dot suc-dot-soon"></div><div class="suc-nombre suc-nombre-soon">Valladolid 2</div><div class="suc-ciudad suc-ciudad-soon">Próximamente</div></div>
+
+          <div class="suc-card-clean" data-zone="merida">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Caucel.png')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Caucel</div><div class="suc-ciudad">Mérida, Yucatán</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/1h61SXRNt9XtehLYA" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="merida">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/centro 71.png')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Centro 71</div><div class="suc-ciudad">Mérida, Yucatán</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/tw1nCg6c6bCoijar6" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="merida">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Paloma.jpeg')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Paloma</div><div class="suc-ciudad">Mérida, Yucatán</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/gB1TdRCHgg8qhSnd7" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="merida">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Fco Montejo.jpeg')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Fco. Montejo</div><div class="suc-ciudad">Mérida, Yucatán</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/JcboDqu8DFU5pGss5" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="merida">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Mulsay.jpeg')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Mulsay</div><div class="suc-ciudad">Mérida, Yucatán</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/cU4Q8kk9FdZLyc7DA" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="merida">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Mexico Norte.jpeg')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">México Norte</div><div class="suc-ciudad">Mérida, Yucatán</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/rvd4kzVYjUCtLPQWA" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="merida">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Miraflores.jpeg')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Miraflores</div><div class="suc-ciudad">Mérida, Yucatán</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/tZDM8ENxVXbEGXAE9" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="merida">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Meliton.jpeg')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Melitón</div><div class="suc-ciudad">Mérida, Yucatán</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/a8giJNkruK5Lks5S8" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="merida">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Kanasin.jpeg')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Kanasín</div><div class="suc-ciudad">Mérida, Yucatán</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/hWdtCZWuGjEdrYSn8" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="campeche">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Santa Ana.jpeg')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Santa Ana</div><div class="suc-ciudad">Campeche, Camp.</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/aT6VeqMKRCgAks1X6" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="campeche">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Obregon.jpeg')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Obregón</div><div class="suc-ciudad">Campeche, Camp.</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/RX3uC5NZPqEy6sgE8" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="campeche">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Brotherhood.jpeg')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Brotherhood</div><div class="suc-ciudad">Campeche, Camp.</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/M6kemJ2aP5v2sgveA" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="otros">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Valladolid.png')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Valladolid</div><div class="suc-ciudad">Valladolid, Yuc.</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/Bcwc9WUcaEUTksEE8" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="otros">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Progreso.jpg')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Progreso</div><div class="suc-ciudad">Progreso, Yuc.</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/ekyEP6RLyZBv6F8P9" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean" data-zone="otros">
+            <div class="suc-card-bg" style="background-image:url('images/sucursales/Motul.png')"></div>
+            <div class="suc-card-body">
+              <div class="suc-nombre">Motul</div><div class="suc-ciudad">Motul, Yuc.</div>
+              <div class="suc-card-btns">
+                <a href="https://maps.app.goo.gl/3wWUVsse3uSG4Ctx5" target="_blank" class="suc-btn suc-btn-maps">📍 Maps</a>
+                <a href="https://api.whatsapp.com/send?phone=5219992313231" target="_blank" class="suc-btn suc-btn-wa">💬 WA</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="suc-card-clean suc-card-soon" data-zone="todas">
+            <div class="suc-badge-soon">Próximamente</div>
+            <div class="suc-nombre-soon">Valladolid 2</div>
+          </div>
+
         </div>
     </div>
 </section>
