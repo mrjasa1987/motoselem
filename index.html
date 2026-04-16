@@ -439,7 +439,7 @@ img { max-width: 100%; display: block; }
     function lock(){overlay.classList.remove('hidden');document.body.style.overflow='hidden';passInput.value='';}
     function resetTimer(){clearTimeout(timer);timer=setTimeout(lock,5*60*1000);}
     if(sessionStorage.getItem('selem_access')==='ok'){overlay.classList.add('hidden');document.body.style.overflow='';resetTimer();['mousemove','keydown','click','scroll','touchstart'].forEach(e=>document.addEventListener(e,resetTimer));}
-    function tryPass(){const v=passInput.value.trim();if(v==='selem2025'||v==='selem2024'){overlay.classList.add('hidden');document.body.style.overflow='';sessionStorage.setItem('selem_access','ok');resetTimer();['mousemove','keydown','click','scroll','touchstart'].forEach(e=>document.addEventListener(e,resetTimer));}else{passError.textContent='Contraseña incorrecta';passInput.style.borderColor='#CC0000';setTimeout(()=>{passError.textContent='';passInput.style.borderColor='#333';},2000);}}
+    function tryPass(){const v=passInput.value.trim();if(v==='motoselem123'){overlay.classList.add('hidden');document.body.style.overflow='';sessionStorage.setItem('selem_access','ok');resetTimer();['mousemove','keydown','click','scroll','touchstart'].forEach(e=>document.addEventListener(e,resetTimer));}else{passError.textContent='Contraseña incorrecta';passInput.style.borderColor='#CC0000';setTimeout(()=>{passError.textContent='';passInput.style.borderColor='#333';},2000);}}
     passBtn.addEventListener('click',tryPass);
     passInput.addEventListener('keydown',e=>{if(e.key==='Enter')tryPass();});
 })();
