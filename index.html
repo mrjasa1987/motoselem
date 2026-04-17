@@ -134,13 +134,13 @@ img { max-width: 100%; display: block; }
 .hero-eyebrow { font-family: 'Oswald', sans-serif; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 4px; color: rgba(255,255,255,0.2); margin-bottom: 20px; }
 .hero-desc { font-size: 0.9rem; color: rgba(255,255,255,0.38); line-height: 1.75; max-width: 340px; margin-bottom: 32px; font-weight: 300; }
 .hero-search-wrap { max-width: 420px; }
-.hero-search { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 5px 5px 5px 16px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: border-color 0.2s; margin-bottom: 10px; }
-.hero-search:hover { border-color: rgba(204,0,0,0.4); }
-.hero-search-icon { color: rgba(255,255,255,0.25); flex-shrink: 0; }
-.hero-search-placeholder { flex: 1; font-size: 0.88rem; color: rgba(255,255,255,0.22); padding: 10px 0; font-weight: 300; }
-.hero-search-btn { background: #CC0000; color: #fff; font-family: 'Oswald', sans-serif; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; padding: 11px 18px; border-radius: 5px; cursor: pointer; white-space: nowrap; border: none; }
-.hero-search-btn:hover { background: #a00000; }
-.hero-search-hint { font-size: 0.75rem; color: rgba(255,255,255,0.18); line-height: 1.5; }
+.hero-search { background: rgba(255,255,255,0.95); border: 2px solid #fff; border-radius: 12px; padding: 8px 8px 8px 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.3s ease; margin-bottom: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+.hero-search:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.18); border-color: #CC0000; }
+.hero-search-icon { color: #666; flex-shrink: 0; }
+.hero-search-placeholder { flex: 1; font-size: 0.95rem; color: #666; padding: 10px 0; font-weight: 400; font-family: 'Roboto', sans-serif; }
+.hero-search-btn { background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%); color: #fff; border: none; border-radius: 8px; padding: 14px 28px; font-family: 'Oswald', sans-serif; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(204,0,0,0.4); white-space: nowrap; }
+.hero-search-btn:hover { background: linear-gradient(135deg, #FF2020 0%, #E60000 100%); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(204,0,0,0.6); }
+.hero-search-hint { font-size: 0.75rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
 .hero-right { display: flex; align-items: flex-end; justify-content: center; }
 .hero-moto-img { width: 115%; max-width: none; margin-left: -8%; filter: drop-shadow(-20px 20px 40px rgba(0,0,0,0.8)); animation: moto-float 5s ease-in-out infinite; }
 @keyframes moto-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
@@ -324,15 +324,16 @@ img { max-width: 100%; display: block; }
 
 /* FOTO MOTO DETECTOR */
 .moto-detector-btn {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
-    color: rgba(255,255,255,0.7); font-family: 'Oswald', sans-serif;
-    font-size: 0.82rem; text-transform: uppercase; letter-spacing: 1.5px;
-    padding: 11px 20px; border-radius: 6px; cursor: pointer;
-    transition: all 0.2s; margin-top: 12px; width: 100%; max-width: 420px;
-    justify-content: center;
+    background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+    color: #fff; border: 2px solid rgba(255,255,255,0.2); border-radius: 12px;
+    padding: 16px 24px; font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px;
+    cursor: pointer; transition: all 0.3s ease;
+    display: flex; align-items: center; gap: 12px; justify-content: center;
+    margin-top: 12px; width: 100%; max-width: 420px;
+    box-shadow: 0 8px 32px rgba(204,0,0,0.3);
 }
-.moto-detector-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: #fff; }
+.moto-detector-btn:hover { background: linear-gradient(135deg, #FF2020 0%, #E60000 100%); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(204,0,0,0.5); border-color: rgba(255,255,255,0.4); }
 .moto-detector-btn svg { flex-shrink: 0; }
 
 #moto-detector-modal {
@@ -425,8 +426,10 @@ img { max-width: 100%; display: block; }
     <div class="hero">
         <div class="hero-left">
             <div class="hero-badge"><div class="hero-badge-dot"></div>17 sucursales · Yucatán y Campeche</div>
-            <img src="images/selemlogo.png" alt="Selem" style="height: 55px; opacity: 0.9; margin-bottom: 20px; display: block;">
-            <h1 class="hero-h1">Cuenta con<span class="red">nuestra parte</span></h1>
+            <div style="position: relative; padding-top: 60px;">
+                <img src="images/selemlogo.png" alt="Selem" style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); height: 45px; opacity: 0.8;">
+                <h1 class="hero-h1">Cuenta con<span class="red">nuestra parte</span></h1>
+            </div>
             <p class="hero-eyebrow">Más de 20 años contigo</p>
             <p class="hero-desc">Refacciones y accesorios para tu moto. Mayoreo y menudeo en el sureste de México.</p>
             <div class="hero-search-wrap">
