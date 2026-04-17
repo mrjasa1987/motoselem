@@ -1015,7 +1015,7 @@ window.addEventListener('load',()=>{
     }).catch(e=>console.warn('Inventario no disponible:',e));
 });
 
-function abrirPortal(){
+function abrirPortal(skipHistory){
     const ov=document.getElementById('portal-overlay');
     ov.style.display='block';
     document.body.style.overflow='hidden';
@@ -1027,9 +1027,12 @@ function abrirPortal(){
     if(perfil.empresa)portalUsuario.empresa=perfil.empresa;
     if(perfil.telefono)portalUsuario.telefono=perfil.telefono;
     renderPortalMain();
+    if(!skipHistory && location.pathname!=='/busqueda'){
+        history.pushState({portal:true},'','/busqueda');
+    }
 }
 
-function cerrarPortal(){
+function cerrarPortal(skipHistory){
     document.getElementById('portal-overlay').style.display='none';
     document.getElementById('portal-carrito-panel').style.display='none';
     carritoAbierto=false;
@@ -1038,7 +1041,30 @@ function cerrarPortal(){
     } else {
         document.body.style.overflow='';
     }
+    if(!skipHistory && location.pathname==='/busqueda'){
+        history.pushState({},'','/');
+    }
 }
+
+window.addEventListener('popstate',()=>{
+    const abierto=document.getElementById('portal-overlay').style.display==='block';
+    if(location.pathname==='/busqueda' && !abierto){
+        abrirPortal(true);
+    } else if(location.pathname!=='/busqueda' && abierto){
+        cerrarPortal(true);
+    }
+});
+
+document.addEventListener('DOMContentLoaded',()=>{
+    if(location.pathname==='/busqueda'){
+        const esperar=setInterval(()=>{
+            if(portalInventarioCargado){
+                clearInterval(esperar);
+                abrirPortal(true);
+            }
+        },100);
+    }
+});
 
 function renderPortalLogin(){
     document.getElementById('portal-content').innerHTML=`
